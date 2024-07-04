@@ -49,18 +49,14 @@ class SubmitVoteView(views.APIView):
 
     def post(self, request, *args, **kwargs):
         name = request.data.get("name")
-        email = request.data.get("email")
-        cookie = request.COOKIES.get("userCookie")
         cabin_id = request.data.get("cabin_id")
 
-        if not name or not email or not cookie:
+        if not name:
             return Response({"error": "Invalid vote submission"}, status=400)
 
         user = User.objects.filter(
-            email=email, defaults={"name": name, "cookie": cookie}
+           name=name
         ).first()
-        if user.cookie != cookie:
-            return Response({"error": "Invalid user"}, status=400)
 
         cabin = Cabin.objects.filter(id=cabin_id).first()
 

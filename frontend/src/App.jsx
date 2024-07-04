@@ -1,12 +1,20 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import ButtonUsage from "./components/ButtonUsage";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+import UserForm from "./components/UserForm";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 function App() {
   return (
-    <main>
-      <ButtonUsage/>
-    </main>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      <UserForm />
+    </ThemeProvider>
   );
 }
 

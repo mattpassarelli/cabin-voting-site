@@ -5,4 +5,4 @@ from cabin_site.models.user import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "name", "email", "unique_id"]
+        fields = ["id", "name"]
