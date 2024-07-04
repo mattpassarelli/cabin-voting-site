@@ -18,7 +18,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 from rest_framework import routers
-from cabin_site.views import trip, cabin
+from cabin_site.views import trip, cabin, user
 
 router = routers.DefaultRouter()
 
@@ -29,4 +29,6 @@ urlpatterns = [
     re_path(r"^trips/(?P<pk>\d+)/$", trip.TripDetail.as_view()),  # Corrected line
     path("cabins/", cabin.CabinList.as_view()),
     re_path(r"^cabins/(?P<pk>\d+)/$", cabin.CabinDetail.as_view()),
+    path("users/", user.UserList.as_view(), name="user-list-create"),
+    path("users/<int:pk>/", user.UserDetail.as_view(), name="user-detail"),
 ]
