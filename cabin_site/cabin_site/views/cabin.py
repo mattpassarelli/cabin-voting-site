@@ -1,5 +1,7 @@
+from cabin_site.models.user import User
 from cabin_site.models.cabin import Cabin
 from cabin_site.serializers.cabin import CabinSerializer
+from cabin_site.serializers.user import UserSerializer
 
 from rest_framework import generics, status, views
 from rest_framework.response import Response
@@ -34,6 +36,17 @@ class CabinDetail(generics.RetrieveAPIView):
 
 # TODO: patch endpoint for updating
 class SubmitVoteView(views.APIView):
+
+    def get(self, request, *args, **kwargs):
+        cabin_id = self.kwargs.get("pk")
+        if not cabin_id:
+            return Response({"error": "cabin_id parameter is required"}, status=400)
+
+        cabin = Cabin.objects.filter(id=cabin_id).first()
+        users = cabin.votes.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
+
     def post(self, request, *args, **kwargs):
         name = request.data.get("name")
         email = request.data.get("email")
@@ -43,14 +56,15 @@ class SubmitVoteView(views.APIView):
         if not name or not email or not cookie:
             return Response({"error": "Invalid vote submission"}, status=400)
 
-        user, created = User.objects.get_or_create(
+        user = User.objects.filter(
             email=email, defaults={"name": name, "cookie": cookie}
-        )
-        if not created and user.cookie != cookie:
+        ).first()
+        if user.cookie != cookie:
             return Response({"error": "Invalid user"}, status=400)
 
         cabin = Cabin.objects.filter(id=cabin_id).first()
 
+        # TODO: add removing option
         if user in cabin.votes.all():
             return Response(
                 {"error": "You have already voted for this cabin"}, status=400
