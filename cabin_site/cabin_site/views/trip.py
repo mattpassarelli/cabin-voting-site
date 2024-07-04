@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from cabin_site.models.trip import Trip
 from cabin_site.serializers.trip import TripSerializer
 from rest_framework import generics, status
@@ -13,6 +12,7 @@ class TripList(generics.ListCreateAPIView):
         return Trip.objects.all()
 
     def post(self, request, *args, **kwargs):
+        # TODO: data validation
         serializer = TripSerializer(data=request.data)
 
         if not serializer.is_valid():
@@ -29,3 +29,5 @@ class TripDetail(generics.RetrieveAPIView):
     model = Trip
     serializer_class = TripSerializer
     queryset = Trip.objects.all()
+
+# TODO: trip update to add cabins
