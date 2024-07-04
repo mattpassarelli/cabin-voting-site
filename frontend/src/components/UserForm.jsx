@@ -1,40 +1,84 @@
+import { Button, Form } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
+import Modal from "react-bootstrap/Modal";
 
 const UserForm = () => {
+  const [renderForm, setRenderForm] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [username, setUsername] = useState("");
+
   useEffect(() => {
     const checkUser = async () => {
       const storedName = localStorage.getItem("userName");
 
       if (!storedName) {
-        const nameInput = prompt("Please enter your name:");
-
-        await createUser(nameInput);
+        setRenderForm(true);
       }
     };
 
     checkUser();
   }, []);
 
-  const createUser = async (name) => {
+  const createUser = async (event) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.stopPropagation();
+    }
+    setValidated(true);
+
     const response = await fetch("http://127.0.0.1:8000/users/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name }),
+      body: JSON.stringify({ name: username }),
     });
 
     const data = await response.json();
 
     if (response.ok) {
       console.log("User created or retrieved:", data);
-      localStorage.setItem("userName", name);
+      localStorage.setItem("userName", username);
+      setRenderForm(false)
     } else {
       console.error("Error:", data.error);
     }
   };
 
-  return null; // or you can return a loading indicator or another component
+  return (
+    <Modal show={renderForm} backdrop="static" keyboard={false} centered>
+      <Form onSubmit={createUser} validated={validated} noValidate>
+        <Modal.Header>
+          <Modal.Title>Who are you?</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Form.Group controlId="userCreation.name">
+            <Form.Label>Your Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="IC Weiner"
+              autoFocus
+              required
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <Form.Control.Feedback type="invalid">
+              Please choose a username.
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal>
+  );
 };
 
 export default UserForm;

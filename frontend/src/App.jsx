@@ -1,21 +1,8 @@
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 import UserForm from "./components/UserForm";
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
-
 function App() {
-  return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <UserForm />
-    </ThemeProvider>
-  );
+  return <UserForm />;
 }
 
 export default App;
