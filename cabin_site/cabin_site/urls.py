@@ -28,4 +28,3 @@ urlpatterns = [
     path("trips/", trip.TripList.as_view()),
     re_path(r"^trips/(?P<pk>\d+)/$", trip.TripDetail.as_view()),  # Corrected line
 ]
-
