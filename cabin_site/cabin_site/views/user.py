@@ -12,10 +12,8 @@ class UserList(generics.ListCreateAPIView):
         check_user = User.objects.filter(name=request.data["name"]).first()
 
         if check_user:
-            return Response(
-                "This user aleady exists",
-                status=status.HTTP_409_CONFLICT,
-            )
+            print("User already exists. Return a 200 so the system can \"log in\.")
+            return Response(status=status.HTTP_200_OK)
 
         new_user = User.objects.create(name=request.data["name"])
         response = Response(f"Created User: {new_user}")

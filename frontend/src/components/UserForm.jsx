@@ -1,6 +1,7 @@
 import { Button, Form } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
+import { redirect } from "react-router-dom";
 
 const UserForm = () => {
   const [renderForm, setRenderForm] = useState(false);
@@ -41,7 +42,9 @@ const UserForm = () => {
     if (response.ok) {
       console.log("User created or retrieved:", data);
       localStorage.setItem("userName", username);
-      setRenderForm(false)
+      setRenderForm(false);
+
+      redirect("/home");
     } else {
       console.error("Error:", data.error);
     }
