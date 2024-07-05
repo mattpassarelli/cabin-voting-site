@@ -7,4 +7,4 @@ class Trip(models.Model):
     end_date = models.DateField()
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
-    cabins = models.ForeignKey(Cabin, on_delete=models.CASCADE)
+    cabins = models.ForeignKey(Cabin, on_delete=models.CASCADE, null=True, blank=True)

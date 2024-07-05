@@ -26,6 +26,7 @@ const UserForm = () => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
+      return;
     }
     setValidated(true);
 
