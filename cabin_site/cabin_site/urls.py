@@ -26,7 +26,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(router.urls)),
     path("trips/", trip.TripList.as_view()),
-    re_path(r"^trips/(?P<pk>\d+)/$", trip.TripDetail.as_view()),  # Corrected line
+    path("trips/<int:pk>/", trip.TripDetail.as_view()),  # Corrected line
     path("cabins/", cabin.CabinList.as_view()),
     re_path(r"^cabins/(?P<pk>\d+)/vote", cabin.SubmitVoteView.as_view()),
     re_path(r"^cabins/(?P<pk>\d+)/$", cabin.CabinDetail.as_view()),

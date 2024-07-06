@@ -26,9 +26,9 @@ const UserForm = () => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.stopPropagation();
+      setValidated(true);
       return;
     }
-    setValidated(true);
 
     const response = await fetch("http://127.0.0.1:8000/users/", {
       method: "POST",

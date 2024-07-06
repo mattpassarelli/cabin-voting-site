@@ -8,8 +8,8 @@ import {
 import App from "./App";
 import Home from "./screens/Home";
 import ErrorPage from "./screens/ErrorPage";
-import Trips from "./screens/Trips";
-import TripDetail from "./screens/TripDetail";
+import Trips from "./screens/Trips/Trips";
+import TripDetail from "./screens/Trips/TripDetail";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +39,5 @@ const router = createBrowserRouter([
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
 );
