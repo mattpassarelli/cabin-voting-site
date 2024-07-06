@@ -30,7 +30,7 @@ urlpatterns = [
     path("trips/<int:pk>/", trip.TripDetail.as_view()),  # Corrected line
     path("cabins/", cabin.CabinList.as_view()),
     path("cabins/<int:pk>/", cabin.CabinDetail.as_view()),
-    re_path(r"^cabins/(?P<pk>\d+)/vote", cabin.SubmitVoteView.as_view()),
+    path("cabins/<int:pk>/vote/", cabin.SubmitVoteView.as_view()),
     path("users/", user.UserList.as_view(), name="user-list-create"),
     path("users/<int:pk>/", user.UserDetail.as_view(), name="user-detail"),
 ]

@@ -88,7 +88,6 @@ class CabinDetail(generics.RetrieveAPIView):
         return Response(status=status.HTTP_200_OK)
 
 
-# TODO: patch endpoint for updating
 class SubmitVoteView(views.APIView):
 
     def get(self, request, *args, **kwargs):
@@ -102,8 +101,8 @@ class SubmitVoteView(views.APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        name = request.data.get("name")
-        cabin_id = request.data.get("cabin_id")
+        name = request.data.get("user")
+        cabin_id = kwargs["pk"]
 
         if not name:
             return Response({"error": "Invalid vote submission"}, status=400)
@@ -114,11 +113,10 @@ class SubmitVoteView(views.APIView):
 
         # TODO: add removing option
         if user in cabin.votes.all():
-            return Response(
-                {"error": "You have already voted for this cabin"}, status=400
-            )
+            cabin.votes.remove(user.id)
+            return Response("Vote removed")
 
-        cabin.votes.add(user)
+        cabin.votes.add(user.id)
         cabin.save()
 
         return Response({"success": "Vote submitted"})
