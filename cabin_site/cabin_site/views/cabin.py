@@ -51,6 +51,42 @@ class CabinDetail(generics.RetrieveAPIView):
     serializer_class = CabinSerializer
     queryset = Cabin.objects.all()
 
+    def patch(self, request, pk):
+        print(f"PATCHing Cabin {pk}")
+        cabin = Cabin.objects.filter(id=pk).first()
+
+        if cabin is None:
+            return Response(
+                f"Cabin with id {pk} does not exist", status=status.HTTP_404_NOT_FOUND
+            )
+        serializer = CabinSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        if cabin.city != serializer.data.get(
+            "city", ""
+        ) or cabin.state != serializer.data.get("state", ""):
+            return Response(
+                "You cannot change the city or state. Delete the cabin and submit a new one",
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        cabin.things_to_do = serializer.data["things_to_do"]
+        cabin.listing_url = serializer.data["listing_url"]
+        cabin.image_url = serializer.data["image_url"]
+
+        cabin.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def delete(self, request, pk):
+        print(f"Deleting Cabin {pk}")
+
+        Cabin.objects.filter(id=pk).delete()
+
+        return Response(status=status.HTTP_200_OK)
+
 
 # TODO: patch endpoint for updating
 class SubmitVoteView(views.APIView):

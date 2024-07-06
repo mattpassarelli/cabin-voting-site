@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Container, Button, Card } from 'react-bootstrap';
+import { Container, Button, Card, Row, Col } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
 import CabinFormModal from '../../components/Cabins/CabinFormModal';
 
 import axios from 'axios';
 
 import useRequest from '../../hooks/useRequest';
+import CabinItem from './CabinItem';
 
 const Cabins = () => {
   const { tripId } = useParams();
@@ -18,13 +19,13 @@ const Cabins = () => {
     request: fetchCabins,
   } = useRequest(
     useCallback(async () => {
-      const response = axios.get(`http://localhost:8000/trips/${tripId}/cabins`);
+      const response = await axios.get(`http://localhost:8000/trips/${tripId}/cabins/`);
 
       return {
-        cabins: response.data,
+        cabins: response.data.cabins,
       };
     }, []),
-    { cabins: [] },
+    { cabins: [] }
   );
 
   useEffect(() => {
@@ -38,22 +39,14 @@ const Cabins = () => {
         Create New Cabin
       </Button>
       <Row lg={3}>
-        {cabins.map((cabin) => {
-          return (
-            <Col className='d-flex'>
-              <Card className='flex-fill' key={cabin.id}>
-                <Card.Img variant='top' src={'#'} />
-                <Card.Body>
-                  <Card.Title>
-                    {cabin.city}, {cabin.state}
-                  </Card.Title>
-                  <Card.Text>{cabin.things_to_do}</Card.Text>
-                  <Button variant='primary'>Add to cart</Button>
-                </Card.Body>
-              </Card>
-            </Col>
-          );
-        })}
+        {!isLoading &&
+          cabins.map((cabin) => {
+            return (
+              <Col className='d-flex'>
+                <CabinItem cabin={cabin} fetchCabins={fetchCabins} tripId={tripId} />
+              </Col>
+            );
+          })}
       </Row>
       <CabinFormModal
         isOpen={showForm}
