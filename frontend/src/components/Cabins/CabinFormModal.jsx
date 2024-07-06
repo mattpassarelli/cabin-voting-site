@@ -4,159 +4,145 @@ import axios from 'axios';
 import { STATE_OPTIONS } from '../../constants';
 
 const CabinFormModal = ({
-    isOpen,
-    handleClose,
-    selectedCabin,
-    isEdit = false,
-    tripId,
-    fetchItems,
+  isOpen,
+  handleClose,
+  selectedCabin,
+  isEdit = false,
+  tripId,
+  fetchItems,
 }) => {
-    const [city, setCity] = useState(isEdit ? selectedCabin : '');
-    // alamaba is the first option and should be the default
-    const [state, setState] = useState(isEdit ? selectedCabin.state : 'AL');
-    const [thingsToDo, setThingsToDo] = useState(
-        isEdit ? selectedCabin.things_to_do : ''
-    );
-    const [listingUrl, setListingUrl] = useState(
-        isEdit ? selectedCabin.listing_url : ''
-    );
-    const [imageUrl, setImageUrl] = useState(
-        isEdit ? selectedCabin.image_url : ''
-    );
-    const [validated, setValidated] = useState(false);
+  const [city, setCity] = useState(isEdit ? selectedCabin : '');
+  // alamaba is the first option and should be the default
+  const [state, setState] = useState(isEdit ? selectedCabin.state : 'AL');
+  const [thingsToDo, setThingsToDo] = useState(isEdit ? selectedCabin.things_to_do : '');
+  const [listingUrl, setListingUrl] = useState(isEdit ? selectedCabin.listing_url : '');
+  const [imageUrl, setImageUrl] = useState(isEdit ? selectedCabin.image_url : '');
+  const [validated, setValidated] = useState(false);
 
-    const addCabin = async (e) => {
-        e.preventDefault();
+  const addCabin = async (e) => {
+    e.preventDefault();
 
-        const form = e.currentTarget;
-        if (form.checkValidity() === false) {
-            e.stopPropagation();
-            setValidated(true);
-            return;
-        }
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+      setValidated(true);
+      return;
+    }
 
-        const data = {
-            tripId,
-            city,
-            state,
-            things_to_do: thingsToDo,
-            listing_url: listingUrl,
-            image_url: imageUrl,
-            submitter: localStorage.getItem('userName'),
-        };
-
-        let response = null;
-
-        if (isEdit) {
-            // TODO:
-        } else {
-            response = await axios.post('http://localhost:8000/cabins/', data, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-        }
-
-        if (response.status === 201) {
-            setCity('');
-            setState('AL');
-            setImageUrl('');
-            setThingsToDo('');
-            setListingUrl('');
-
-            handleClose();
-            fetchItems();
-        }
+    const data = {
+      tripId,
+      city,
+      state,
+      things_to_do: thingsToDo,
+      listing_url: listingUrl,
+      image_url: imageUrl,
+      submitter: localStorage.getItem('userName'),
     };
 
-    return (
-        <Modal show={isOpen} onHide={handleClose}>
-            <Form onSubmit={addCabin} validated={validated} noValidate>
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        {isEdit ? 'Edit Cabin' : 'Add Cabin'}
-                    </Modal.Title>
-                </Modal.Header>
+    let response = null;
 
-                <Modal.Body>
-                    <Form.Group controlId="formCity">
-                        <Form.Label>City</Form.Label>
-                        <Form.Control
-                            type="text"
-                            placeholder="Enter city"
-                            value={city}
-                            onChange={(e) => setCity(e.target.value)}
-                            required
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Please enter a city
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="formState">
-                        <Form.Label>State</Form.Label>
-                        <Form.Select
-                            aria-label="Default select example"
-                            value={state}
-                            onChange={(e) => setState(e.target.value)}
-                            required
-                        >
-                            {STATE_OPTIONS.map((state) => (
-                                <option key={state.value} value={state.value}>
-                                    {state.name}
-                                </option>
-                            ))}
-                        </Form.Select>
-                        <Form.Control.Feedback type="invalid">
-                            State is required
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="formThingsToDo">
-                        <Form.Label>Things to Do</Form.Label>
-                        <Form.Control
-                            as="textarea"
-                            rows={3}
-                            value={thingsToDo}
-                            onChange={(e) => setThingsToDo(e.target.value)}
-                        />
-                    </Form.Group>
-                    <Form.Group controlId="formListingUrl">
-                        <Form.Label>Listing URL</Form.Label>
-                        <Form.Control
-                            type="url"
-                            placeholder="Enter listing URL"
-                            value={listingUrl}
-                            onChange={(e) => setListingUrl(e.target.value)}
-                            required
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            A URL for the rental listing is required
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group controlId="formImageUrl">
-                        <Form.Label>Image URL</Form.Label>
-                        <Form.Control
-                            type="url"
-                            placeholder="Enter image URL"
-                            value={imageUrl}
-                            onChange={(e) => setImageUrl(e.target.value)}
-                            required
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            An image URL is required
-                        </Form.Control.Feedback>
-                    </Form.Group>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" type="submit">
-                        Submit
-                    </Button>
-                </Modal.Footer>
-            </Form>
-        </Modal>
-    );
+    if (isEdit) {
+      // TODO:
+    } else {
+      response = await axios.post('http://localhost:8000/cabins/', data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+
+    if (response.status === 201) {
+      setCity('');
+      setState('AL');
+      setImageUrl('');
+      setThingsToDo('');
+      setListingUrl('');
+
+      handleClose();
+      fetchItems();
+    }
+  };
+
+  return (
+    <Modal show={isOpen} onHide={handleClose}>
+      <Form onSubmit={addCabin} validated={validated} noValidate>
+        <Modal.Header closeButton>
+          <Modal.Title>{isEdit ? 'Edit Cabin' : 'Add Cabin'}</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <Form.Group controlId='formCity'>
+            <Form.Label>City</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter city'
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              required
+            />
+            <Form.Control.Feedback type='invalid'>Please enter a city</Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId='formState'>
+            <Form.Label>State</Form.Label>
+            <Form.Select
+              aria-label='Default select example'
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              required
+            >
+              {STATE_OPTIONS.map((state) => (
+                <option key={state.value} value={state.value}>
+                  {state.name}
+                </option>
+              ))}
+            </Form.Select>
+            <Form.Control.Feedback type='invalid'>State is required</Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId='formThingsToDo'>
+            <Form.Label>Things to Do</Form.Label>
+            <Form.Control
+              as='textarea'
+              rows={3}
+              value={thingsToDo}
+              onChange={(e) => setThingsToDo(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId='formListingUrl'>
+            <Form.Label>Listing URL</Form.Label>
+            <Form.Control
+              type='url'
+              placeholder='Enter listing URL'
+              value={listingUrl}
+              onChange={(e) => setListingUrl(e.target.value)}
+              required
+            />
+            <Form.Control.Feedback type='invalid'>
+              A URL for the rental listing is required
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId='formImageUrl'>
+            <Form.Label>Image URL</Form.Label>
+            <Form.Control
+              type='url'
+              placeholder='Enter image URL'
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              required
+            />
+            <Form.Control.Feedback type='invalid'>An image URL is required</Form.Control.Feedback>
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant='primary' type='submit'>
+            Submit
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal>
+  );
 };
 
 export default CabinFormModal;

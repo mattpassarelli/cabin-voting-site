@@ -14,7 +14,7 @@ From the `frontend` project directory, run `npm run start`
 
 ### Database
 
-This is run alongside the Api  in the docker-compose
+This is run alongside the Api in the docker-compose
 
 ## Without Docker
 
