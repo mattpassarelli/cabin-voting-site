@@ -32,4 +32,5 @@ Unsure right now. Spin up a Postgres 14 container and map the network informatio
 
 # Deployment
 
-TBD
+There is a docker-compose yaml that'll build all 3 containers for the app. Unraid has community support for docker
+compose. So I will attempt to use that.
