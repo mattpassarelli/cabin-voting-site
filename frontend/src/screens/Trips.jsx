@@ -1,21 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { Container, ListGroup, Button, Modal, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import axios from "axios";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  Button,
+  Container,
+  Form,
+  ListGroup,
+  Modal,
+  Spinner,
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
+
+import useRequest from "../hooks/useRequest";
 
 const Trips = () => {
-  const [trips, setTrips] = useState([]);
   const [open, setOpen] = useState(false);
   const [validated, setValidated] = useState(false);
   const [tripYear, setTripYear] = useState(0);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
+  const {
+    result: { trips },
+    isLoading,
+    error,
+    request: fetchTrips,
+  } = useRequest(
+    useCallback(async () => {
+      const response = await axios.get("http://localhost:8000/trips/");
+
+      return {
+        trips: response.data,
+      };
+    }, []),
+    {
+      trips: [],
+    }
+  );
+
   useEffect(() => {
-    // Fetch trips from API
-    axios
-      .get("http://localhost:8000/trips/")
-      .then((response) => setTrips(response));
+    fetchTrips();
   }, []);
 
   const resetForm = () => {
@@ -23,6 +46,13 @@ const Trips = () => {
     setTripYear(false);
     setStartDate(false);
     setEndDate(false);
+  };
+
+  const editConfig = (item) => {
+    setTripYear(item.year);
+    setEndDate(item.end_date);
+    setStartDate(item.start_date);
+    setOpen(true);
   };
 
   const submitNewTrip = async (event) => {
@@ -47,11 +77,11 @@ const Trips = () => {
       },
     });
 
-    if (response.status === 200) {
+    if (response.status === 201) {
       resetForm();
     } else {
       console.log("There was an error");
-      console.log(response.data);
+      console.log(response);
     }
   };
 
@@ -61,38 +91,39 @@ const Trips = () => {
       <Button variant="primary" className="mb-3" onClick={() => setOpen(true)}>
         Create New Trip
       </Button>
-      <ListGroup>
-        {Object.keys(trips).map((key) => {
-          const trip = trips[key]
-          
-          return (
-            <ListGroup.Item key={trip.id}>
-              <div className="d-flex justify-content-between align-items-center">
-                <div>{trip.name}</div>
-                <div>
-                  <Button
-                    as={Link}
-                    to={`/trip/${trip.id}/cabins`}
-                    variant="info"
-                    className="mr-2"
-                  >
-                    View Cabins
-                  </Button>
-                  <Button
-                    as={Link}
-                    to={`/trips/${trip.id}/edit`}
-                    variant="secondary"
-                    className="mr-2"
-                  >
-                    Edit
-                  </Button>
-                  <Button variant="danger">Delete</Button>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <ListGroup>
+          {trips.map((trip) => {
+            return (
+              <ListGroup.Item key={trip.id}>
+                <div className="d-flex justify-content-between align-items-center">
+                  <div>{trip.year}</div>
+                  <div>
+                    <Button
+                      as={Link}
+                      to={`/trip/${trip.id}/cabins`}
+                      variant="info"
+                      className="mr-2"
+                    >
+                      View Cabins
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      className="mr-2"
+                      onClick={() => editConfig(trip)}
+                    >
+                      Edit
+                    </Button>
+                    <Button variant="danger">Delete</Button>
+                  </div>
                 </div>
-              </div>
-            </ListGroup.Item>
-          );
-        })}
-      </ListGroup>
+              </ListGroup.Item>
+            );
+          })}
+        </ListGroup>
+      )}
 
       <Modal show={open} backdrop="static" keyboard={false} centered>
         <Form onSubmit={submitNewTrip} validated={validated} noValidate>
