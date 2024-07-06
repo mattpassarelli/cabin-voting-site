@@ -1,5 +1,6 @@
 from cabin_site.models.user import User
 from cabin_site.models.cabin import Cabin
+from cabin_site.models.trip import Trip
 from cabin_site.serializers.cabin import CabinSerializer
 from cabin_site.serializers.user import UserSerializer
 
@@ -15,7 +16,6 @@ class CabinList(generics.ListCreateAPIView):
         return Cabin.objects.all()
 
     def post(self, request, *args, **kwargs):
-        # TODO: data validation
         serializer = CabinSerializer(data=request.data)
 
         if not serializer.is_valid():
@@ -25,6 +25,24 @@ class CabinList(generics.ListCreateAPIView):
 
         serializer.save()
 
+        new_cabin = serializer.data
+        print("new cabin")
+        print(new_cabin)
+        trip_id = request.data.get("tripId", "")
+
+        if trip_id == "" or trip_id is None:
+            print("TripId was missing from submission")
+            return Response(
+                "Trip Id is missing from submission", status=status.HTTP_400_BAD_REQUEST
+            )
+
+        trip = Trip.objects.filter(id=trip_id).first()
+
+        trip.cabins.add(new_cabin["id"])
+
+        print(f"Cabin {new_cabin['id']} added to trip {trip.id}")
+
+        trip.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
@@ -54,9 +72,7 @@ class SubmitVoteView(views.APIView):
         if not name:
             return Response({"error": "Invalid vote submission"}, status=400)
 
-        user = User.objects.filter(
-           name=name
-        ).first()
+        user = User.objects.filter(name=name).first()
 
         cabin = Cabin.objects.filter(id=cabin_id).first()
 

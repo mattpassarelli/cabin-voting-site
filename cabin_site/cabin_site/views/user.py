@@ -12,7 +12,7 @@ class UserList(generics.ListCreateAPIView):
         check_user = User.objects.filter(name=request.data["name"]).first()
 
         if check_user:
-            print("User already exists. Return a 200 so the system can \"log in\.")
+            print("User already exists. Return a 200 so the system can log in.")
             return Response(status=status.HTTP_200_OK)
 
         new_user = User.objects.create(name=request.data["name"])
