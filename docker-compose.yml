@@ -1,12 +1,10 @@
 services:
-  frontend:
-    build: ./frontend
+  db:
+    image: postgres:14
     volumes:
-      - ./frontend:/code
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
 
   backend:
     build: ./cabin_site
@@ -17,13 +15,15 @@ services:
       - 8000:8000
     depends_on:
       - db
-
-  db:
-    image: postgres:14
+      
+  frontend:
+    build: ./frontend
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
+      - ./frontend:/code
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
