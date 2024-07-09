@@ -75,6 +75,7 @@ class CabinDetail(generics.RetrieveAPIView):
         cabin.things_to_do = serializer.data["things_to_do"]
         cabin.listing_url = serializer.data["listing_url"]
         cabin.image_url = serializer.data["image_url"]
+        cabin.price = serializer.data["price"]
 
         cabin.save()
 

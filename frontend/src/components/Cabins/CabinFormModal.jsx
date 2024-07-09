@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Form, Modal, Button, Alert } from 'react-bootstrap';
+import { Form, Modal, Button, Alert, InputGroup } from 'react-bootstrap';
 import axios from 'axios';
 import { STATE_OPTIONS } from '../../constants';
 import useRequest from '../../hooks/useRequest';
@@ -17,6 +17,7 @@ const CabinFormModal = ({
   const [state, setState] = useState(isEdit ? selectedCabin.state : 'AL');
   const [thingsToDo, setThingsToDo] = useState(isEdit ? selectedCabin.things_to_do : '');
   const [listingUrl, setListingUrl] = useState(isEdit ? selectedCabin.listing_url : '');
+  const [cabinPrice, setCabinPrice] = useState(isEdit ? selectedCabin.price : 0);
   const [imageUrl, setImageUrl] = useState(isEdit ? selectedCabin.image_url : '');
   const [validated, setValidated] = useState(false);
   const [saveError, setSaveError] = useState(false);
@@ -26,7 +27,7 @@ const CabinFormModal = ({
     e.preventDefault();
 
     const form = e.currentTarget;
-    if (form.checkValidity() === false) {
+    if (form.checkValidity() === false || cabinPrice <= 0) {
       e.stopPropagation();
       setValidated(true);
       return;
@@ -37,6 +38,7 @@ const CabinFormModal = ({
       city,
       state,
       things_to_do: thingsToDo,
+      price: cabinPrice,
       listing_url: listingUrl,
       image_url: imageUrl,
       submitter: localStorage.getItem('userName'),
@@ -69,6 +71,7 @@ const CabinFormModal = ({
         setImageUrl('');
         setThingsToDo('');
         setListingUrl('');
+        setCabinPrice(0);
 
         handleClose();
         fetchItems();
@@ -140,6 +143,27 @@ const CabinFormModal = ({
                 onChange={(e) => setThingsToDo(e.target.value)}
               />
             </Form.Group>
+
+            <Form.Group controlId='formCabinCost' className='mb-3'>
+              <Form.Label>Price &nbsp;</Form.Label>
+              <Form.Text id='priceHelp' muted>
+                Enter the price per day for the cabin
+              </Form.Text>
+              <InputGroup className='mb-3'>
+                <InputGroup.Text>$</InputGroup.Text>
+                <Form.Control
+                  type='number'
+                  placeholder='1000'
+                  value={cabinPrice}
+                  onChange={(e) => setCabinPrice(e.target.value)}
+                  defaultValue={0}
+                  required
+                />
+
+                <Form.Control.Feedback type='invalid'>A price is required</Form.Control.Feedback>
+              </InputGroup>
+            </Form.Group>
+
             <Form.Group controlId='formListingUrl'>
               <Form.Label>Listing URL</Form.Label>
               <Form.Control

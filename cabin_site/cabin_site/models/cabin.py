@@ -12,3 +12,4 @@ class Cabin(models.Model):
     submitter = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.DO_NOTHING
     )
+    price = models.IntegerField(default=0)

@@ -43,9 +43,13 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
           <Card.Title>
             <div style={buttonGroupStyle}>
               {cabin.city}, {cabin.state}
-              <Button variant='outline-secondary' onClick={toggleVote}>
-                Vote: {cabin.votes.length}
-              </Button>
+              <div>
+                <span style={{ fontSize: '.9em' }}>{`$${cabin.price}/night`}</span>
+                &nbsp;
+                <Button variant='outline-secondary' onClick={toggleVote}>
+                  Vote: {cabin.votes.length}
+                </Button>
+              </div>
             </div>
           </Card.Title>
           <Card.Text>{cabin.things_to_do}</Card.Text>

@@ -10,6 +10,7 @@ class CabinSerializer(serializers.ModelSerializer):
     listing_url = serializers.URLField()
     image_url = serializers.URLField()
     votes = UserSerializer(many=True, read_only=True)
+    price = serializers.IntegerField(required=True)
 
     class Meta:
         model = Cabin
@@ -21,4 +22,5 @@ class CabinSerializer(serializers.ModelSerializer):
             "listing_url",
             "image_url",
             "votes",
+            "price"
         ]
