@@ -22,11 +22,11 @@ const TripDetail = ({ item, fetchTrips }) => {
     request: deleteTrip,
   } = useRequest(
     useCallback(async () => {
-      await axios.delete(`http://localhost:8000/trips/${item.id}/`);
+      await axios.delete(`https://cabin-db.mattpassarelli.net/trips/${item.id}/`);
     }, []),
     {
       trips: [],
-    },
+    }
   );
 
   const handleDelete = async () => {

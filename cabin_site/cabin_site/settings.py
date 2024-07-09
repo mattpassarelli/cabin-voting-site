@@ -25,7 +25,12 @@ SECRET_KEY = "django-insecure-m3kyi7&g9l5mh2b9!)a(9lid=29r949r7yj%@z)c%@9#)8tqo(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "cabins.mattpassarelli.net",
+    "cabin-db.mattpassarelli.net",
+    "192.168.0.249",
+    "mattpassarelli.net",
+]
 
 
 # Application definition
@@ -129,4 +134,9 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+    "http://192.168.0.249:3001",
+    "https://cabins.mattpassarelli.net",
+    "https://cabin-db.mattpassarelli.net",
+]

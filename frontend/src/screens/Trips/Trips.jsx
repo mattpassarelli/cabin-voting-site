@@ -16,7 +16,7 @@ const Trips = () => {
     request: fetchTrips,
   } = useRequest(
     useCallback(async () => {
-      const response = await axios.get('http://localhost:8000/trips/');
+      const response = await axios.get('https://cabin-db.mattpassarelli.net/trips/');
 
       return {
         trips: response.data,
@@ -24,7 +24,7 @@ const Trips = () => {
     }, []),
     {
       trips: [],
-    },
+    }
   );
 
   useEffect(() => {

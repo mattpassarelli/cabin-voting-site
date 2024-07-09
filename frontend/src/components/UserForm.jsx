@@ -30,7 +30,7 @@ const UserForm = () => {
       return;
     }
 
-    const response = await fetch('http://127.0.0.1:8000/users/', {
+    const response = await fetch('https://cabin-db.mattpassarelli.net/users/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

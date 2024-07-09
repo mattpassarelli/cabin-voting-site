@@ -19,7 +19,9 @@ const Cabins = () => {
     request: fetchCabins,
   } = useRequest(
     useCallback(async () => {
-      const response = await axios.get(`http://localhost:8000/trips/${tripId}/cabins/`);
+      const response = await axios.get(
+        `https://cabin-db.mattpassarelli.net/trips/${tripId}/cabins/`
+      );
 
       return {
         cabins: response.data.cabins,

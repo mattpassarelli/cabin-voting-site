@@ -40,13 +40,13 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
       };
 
       if (isEdit) {
-        await axios.patch(`http://localhost:8000/trips/${tripId}/`, data, {
+        await axios.patch(`https://cabin-db.mattpassarelli.net/trips/${tripId}/`, data, {
           headers: {
             'Content-Type': 'application/json',
           },
         });
       } else {
-        await axios.post('http://localhost:8000/trips/', data, {
+        await axios.post('https://cabin-db.mattpassarelli.net/trips/', data, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -57,7 +57,7 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
       reloadTrips();
       closeModal();
     }),
-    [],
+    []
   );
 
   return (

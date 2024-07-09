@@ -20,7 +20,7 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
   } = useRequest(
     useCallback(async () => {
       await axios.post(
-        `http://localhost:8000/cabins/${cabin.id}/vote/`,
+        `https://cabin-db.mattpassarelli.net/cabins/${cabin.id}/vote/`,
         {
           user: localStorage.getItem('userName'),
         },

@@ -46,13 +46,17 @@ const CabinFormModal = ({
 
     try {
       if (isEdit) {
-        response = await axios.patch(`http://localhost:8000/cabins/${selectedCabin.id}/`, data, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        response = await axios.patch(
+          `https://cabin-db.mattpassarelli.net/cabins/${selectedCabin.id}/`,
+          data,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
       } else {
-        response = await axios.post('http://localhost:8000/cabins/', data, {
+        response = await axios.post('https://cabin-db.mattpassarelli.net/cabins/', data, {
           headers: {
             'Content-Type': 'application/json',
           },
@@ -80,7 +84,7 @@ const CabinFormModal = ({
     request: deleteCabin,
   } = useRequest(
     useCallback(async () => {
-      await axios.delete(`http://localhost:8000/cabins/${selectedCabin.id}/`);
+      await axios.delete(`https://cabin-db.mattpassarelli.net/cabins/${selectedCabin.id}/`);
 
       fetchItems();
       handleClose();
