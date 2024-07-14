@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
     "cabin-db.mattpassarelli.net",
     "192.168.0.249",
     "mattpassarelli.net",
+    "localhost"
 ]
 
 

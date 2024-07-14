@@ -38,16 +38,14 @@ const UserForm = () => {
       body: JSON.stringify({ name: username }),
     });
 
-    const data = await response.json();
 
     if (response.ok) {
-      console.log('User created or retrieved:', data);
       localStorage.setItem('userName', username);
       setRenderForm(false);
 
       redirect('/home');
     } else {
-      console.error('Error:', data.error);
+      console.error('Error:', response);
     }
   };
 
