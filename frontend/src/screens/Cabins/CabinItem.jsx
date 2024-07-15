@@ -37,7 +37,7 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
 
   return (
     <>
-      <Card className='flex-fill' key={cabin.id}>
+      <Card className='flex-fill mb-4' key={cabin.id}>
         <Card.Img variant='top' src={cabin.image_url} />
         <Card.Body>
           <Card.Title>
