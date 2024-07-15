@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useCallback } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import useRequest from '../../hooks/useRequest';
+import { TripAPI } from '../../utils/api';
 
 const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }) => {
   const [validated, setValidated] = useState(false);
@@ -40,17 +41,9 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
       };
 
       if (isEdit) {
-        await axios.patch(`https://cabin-db.mattpassarelli.net/trips/${tripId}/`, data, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        await TripAPI.updateTrip(tripId, data);
       } else {
-        await axios.post('https://cabin-db.mattpassarelli.net/trips/', data, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        await TripAPI.createTrip(data);
       }
 
       resetForm();

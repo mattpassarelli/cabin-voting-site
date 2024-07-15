@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import useRequest from '../../hooks/useRequest';
 import CabinItem from './CabinItem';
+import CabinAPI from '../../utils/api/CabinAPI';
 
 const Cabins = () => {
   const { tripId } = useParams();
@@ -19,9 +20,7 @@ const Cabins = () => {
     request: fetchCabins,
   } = useRequest(
     useCallback(async () => {
-      const response = await axios.get(
-        `https://cabin-db.mattpassarelli.net/trips/${tripId}/cabins/`
-      );
+      const response = await CabinAPI.getCabinsByTripId(tripId);
 
       return {
         cabins: response.data.cabins,

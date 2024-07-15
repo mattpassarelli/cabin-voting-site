@@ -2,7 +2,7 @@ Not intended for wide reaching use.
 
 # TODOs
 
-- [ ] Proper API Class (so we don't have many axios calls everywhere)
+- [X] Proper API Class (so we don't have many axios calls everywhere)
 - [ ] Secondary voting rounds
   - Take a trip and have it calculate the 2-3 top cabins and stage a second round of voting
 - [ ] Proper env variables. Mainly just the URL endpoint that's hit
