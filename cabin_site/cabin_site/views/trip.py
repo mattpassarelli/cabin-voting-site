@@ -112,7 +112,7 @@ class TripFinalRound(generics.RetrieveAPIView):
             top_cabins = []
             for cabin in cabins_with_votes:
                 if cabin.vote_count > 0:
-                    if len(top_cabins) < 3:
+                    if len(top_cabins) < 2:
                         top_cabins.append(cabin)
                     else:
                         if (
@@ -122,10 +122,6 @@ class TripFinalRound(generics.RetrieveAPIView):
                             top_cabins.append(cabin)
                         else:
                             break
-
-            # If more than 3 cabins are tied, randomly select up to 3
-            if len(top_cabins) > 3:
-                top_cabins = random.sample(top_cabins, 3)
 
             cloned_cabins = []
             for cabin in top_cabins:
