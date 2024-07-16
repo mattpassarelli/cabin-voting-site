@@ -4,7 +4,7 @@ import CabinFormModal from '../../components/Cabins/CabinFormModal';
 import useRequest from '../../hooks/useRequest';
 import axios from 'axios';
 
-const CabinItem = ({ cabin, fetchCabins, tripId }) => {
+const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
   const [showEdit, setShowEdit] = useState(false);
 
   const buttonGroupStyle = {
@@ -54,8 +54,8 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
               <div>
                 <span style={{ fontSize: '.9em' }}>{`$${cabin.price}/night`}</span>
                 &nbsp;
-                <Button variant='outline-secondary' onClick={toggleVote}>
-                  Vote: {cabin.votes.length}
+                <Button variant={votedFor ? "success" : 'outline-secondary'} onClick={toggleVote}>
+                  {`${votedFor ? "Voted" :"Vote"}: ${cabin.votes.length}`}
                 </Button>
               </div>
             </div>
