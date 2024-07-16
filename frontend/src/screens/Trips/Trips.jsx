@@ -1,6 +1,5 @@
-import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Container, Form, Modal, Spinner, Table } from 'react-bootstrap';
+import { Button, Container, Spinner, Table } from 'react-bootstrap';
 
 import useRequest from '../../hooks/useRequest';
 import TripDetail from './TripDetail';
@@ -13,7 +12,6 @@ const Trips = () => {
   const {
     result: { trips },
     isLoading,
-    error,
     request: fetchTrips,
   } = useRequest(
     useCallback(async () => {
@@ -30,7 +28,7 @@ const Trips = () => {
 
   useEffect(() => {
     fetchTrips();
-  }, []);
+  }, [fetchTrips]);
 
   return (
     <Container>

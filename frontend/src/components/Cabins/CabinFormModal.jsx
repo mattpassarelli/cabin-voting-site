@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { Form, Modal, Button, Alert, InputGroup } from 'react-bootstrap';
-import axios from 'axios';
 import { STATE_OPTIONS } from '../../constants';
 import useRequest from '../../hooks/useRequest';
 import CabinAPI from '../../utils/api/CabinAPI';
@@ -70,11 +69,7 @@ const CabinFormModal = ({
     }
   };
 
-  const {
-    isLoading: isDeleting,
-    error: errorDeleting,
-    request: deleteCabin,
-  } = useRequest(
+  const { isLoading: isDeleting, request: deleteCabin } = useRequest(
     useCallback(async () => {
       await CabinAPI.deleteCabin(selectedCabin.id);
 

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState, useCallback } from 'react';
 import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import useRequest from '../../hooks/useRequest';
@@ -19,37 +18,36 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
     setValidated(false);
   };
 
-  const {
-    isLoading: isSubmitting,
-    error: saveError,
-    request: submitTrip,
-  } = useRequest(
-    useCallback(async (event) => {
-      event.preventDefault();
+  const { error: saveError, request: submitTrip } = useRequest(
+    useCallback(
+      async (event) => {
+        event.preventDefault();
 
-      const form = event.currentTarget;
-      if (form.checkValidity() === false || tripYear < new Date().getFullYear()) {
-        event.stopPropagation();
-        setValidated(true);
-        return;
-      }
+        const form = event.currentTarget;
+        if (form.checkValidity() === false || tripYear < new Date().getFullYear()) {
+          event.stopPropagation();
+          setValidated(true);
+          return;
+        }
 
-      const data = {
-        year: tripYear,
-        start_date: startDate,
-        end_date: endDate,
-      };
+        const data = {
+          year: tripYear,
+          start_date: startDate,
+          end_date: endDate,
+        };
 
-      if (isEdit) {
-        await TripAPI.updateTrip(tripId, data);
-      } else {
-        await TripAPI.createTrip(data);
-      }
+        if (isEdit) {
+          await TripAPI.updateTrip(tripId, data);
+        } else {
+          await TripAPI.createTrip(data);
+        }
 
-      resetForm();
-      reloadTrips();
-      closeModal();
-    }),
+        resetForm();
+        reloadTrips();
+        closeModal();
+      },
+      []
+    ),
     []
   );
 
