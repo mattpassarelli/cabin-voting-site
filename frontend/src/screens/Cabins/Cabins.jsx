@@ -11,6 +11,7 @@ import CabinAPI from '../../utils/api/CabinAPI';
 const Cabins = () => {
   const { tripId } = useParams();
   const [showForm, setShowForm] = useState(false);
+  const userName = localStorage.getItem('userName')
 
   const {
     result: { cabins },
@@ -40,9 +41,10 @@ const Cabins = () => {
       <Row lg={3}>
         {!isLoading &&
           cabins.map((cabin) => {
+            const votedFor = cabin.votes.some((vote)=> vote.name === userName);
             return (
               <Col className='d-flex'>
-                <CabinItem cabin={cabin} fetchCabins={fetchCabins} tripId={tripId} />
+                <CabinItem cabin={cabin} fetchCabins={fetchCabins} tripId={tripId} votedFor={votedFor} />
               </Col>
             );
           })}
