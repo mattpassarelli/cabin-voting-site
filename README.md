@@ -5,7 +5,7 @@ Not intended for wide reaching use.
 - [X] Proper API Class (so we don't have many axios calls everywhere)
 - [ ] Secondary voting rounds
   - Take a trip and have it calculate the 2-3 top cabins and stage a second round of voting
-- [ ] Proper env variables. Mainly just the URL endpoint that's hit
+- [X] Proper env variables. Mainly just the URL endpoint that's hit
 - [ ] Make use of the Docker compose networking so the UI can hit the API without having to expose the API directly over the internet
 - [ ] Better UI for the cards (bottom padding is missing)
 - [ ] Proper user support over some SSO would be great. Hell I'll take a username and password. Just something better than nothing
