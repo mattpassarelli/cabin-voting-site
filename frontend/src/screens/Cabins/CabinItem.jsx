@@ -4,13 +4,14 @@ import CabinFormModal from '../../components/Cabins/CabinFormModal';
 import useRequest from '../../hooks/useRequest';
 import CabinAPI from '../../utils/api/CabinAPI';
 
-const CabinItem = ({ cabin, fetchCabins, tripId }) => {
+const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
   const [showEdit, setShowEdit] = useState(false);
 
   const buttonGroupStyle = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   };
 
   const {
@@ -25,8 +26,15 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
 
   return (
     <>
-      <Card className='flex-fill' key={cabin.id}>
-        <Card.Img variant='top' src={cabin.image_url} />
+      <Card className='flex-fill mb-4' key={cabin.id}>
+        <Card.Img
+          variant='top'
+          style={{
+            maxHeight: '200px',
+            objectFit: 'cover'
+          }}
+          src={cabin.image_url}
+        />
         <Card.Body>
           <Card.Title>
             <div style={buttonGroupStyle}>
@@ -34,8 +42,8 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
               <div>
                 <span style={{ fontSize: '.9em' }}>{`$${cabin.price}/night`}</span>
                 &nbsp;
-                <Button variant='outline-secondary' onClick={toggleVote}>
-                  Vote: {cabin.votes.length}
+                <Button variant={votedFor ? "success" : 'outline-secondary'} onClick={toggleVote}>
+                  {`${votedFor ? "Voted" :"Vote"}: ${cabin.votes.length}`}
                 </Button>
               </div>
             </div>

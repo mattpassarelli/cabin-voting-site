@@ -12,7 +12,7 @@ Not intended for wide reaching use.
 - [ ] Split these apart into separate repos
   - This isn't really needed since this is just a side project for fun so it's low priority. But proper project structures should really be followed
 - [ ] Find a way to map out shortened URLs. VRBO's specific URL shortener doesn't work on mobile and forces users to download the app. They also don't work for image URLs
-- [ ] Standard the card sizes
+- [X] Standard the card sizes
   - Images vary in size and without set card dimensions, they can become ever so slightly bigger or smaller and it offsets the rows
 - [ ] Access control to Cabins and trips
   - needs proper user support
