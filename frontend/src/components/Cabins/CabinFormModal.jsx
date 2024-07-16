@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { Form, Modal, Button, Alert, InputGroup } from 'react-bootstrap';
-import axios from 'axios';
 import { STATE_OPTIONS } from '../../constants';
 import useRequest from '../../hooks/useRequest';
+import CabinAPI from '../../utils/api/CabinAPI';
 
 const CabinFormModal = ({
   isOpen,
@@ -48,21 +48,9 @@ const CabinFormModal = ({
 
     try {
       if (isEdit) {
-        response = await axios.patch(
-          `https://cabin-db.mattpassarelli.net/cabins/${selectedCabin.id}/`,
-          data,
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        );
+        response = await CabinAPI.updateCabin(selectedCabin.id, data);
       } else {
-        response = await axios.post('https://cabin-db.mattpassarelli.net/cabins/', data, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        response = await CabinAPI.createCabin(data);
       }
 
       if (response.status === 201) {
@@ -81,13 +69,9 @@ const CabinFormModal = ({
     }
   };
 
-  const {
-    isLoading: isDeleting,
-    error: errorDeleting,
-    request: deleteCabin,
-  } = useRequest(
+  const { isLoading: isDeleting, request: deleteCabin } = useRequest(
     useCallback(async () => {
-      await axios.delete(`https://cabin-db.mattpassarelli.net/cabins/${selectedCabin.id}/`);
+      await CabinAPI.deleteCabin(selectedCabin.id);
 
       fetchItems();
       handleClose();

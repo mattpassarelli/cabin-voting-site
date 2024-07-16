@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Container, Button, Card, Row, Col } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
+import { Container, Button, Row, Col } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import CabinFormModal from '../../components/Cabins/CabinFormModal';
 
-import axios from 'axios';
 
 import useRequest from '../../hooks/useRequest';
 import CabinItem from './CabinItem';
+import CabinAPI from '../../utils/api/CabinAPI';
 
 const Cabins = () => {
   const { tripId } = useParams();
@@ -16,24 +16,21 @@ const Cabins = () => {
   const {
     result: { cabins },
     isLoading,
-    error,
     request: fetchCabins,
   } = useRequest(
     useCallback(async () => {
-      const response = await axios.get(
-        `https://cabin-db.mattpassarelli.net/trips/${tripId}/cabins/`
-      );
+      const response = await CabinAPI.getCabinsByTripId(tripId);
 
       return {
         cabins: response.data.cabins,
       };
-    }, []),
+    }, [tripId]),
     { cabins: [] }
   );
 
   useEffect(() => {
     fetchCabins();
-  }, []);
+  }, [fetchCabins]);
 
   return (
     <Container>

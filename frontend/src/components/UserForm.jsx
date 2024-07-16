@@ -2,6 +2,7 @@ import { Button, Form } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { redirect } from 'react-router-dom';
+import UserAPI from '../utils/api/UserAPI';
 
 const UserForm = () => {
   const [renderForm, setRenderForm] = useState(false);
@@ -30,16 +31,9 @@ const UserForm = () => {
       return;
     }
 
-    const response = await fetch('https://cabin-db.mattpassarelli.net/users/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name: username }),
-    });
+    const response = await UserAPI.createUser({ name: username });
 
-
-    if (response.ok) {
+    if (response.status === 200 || response.status === 201) {
       localStorage.setItem('userName', username);
       setRenderForm(false);
 

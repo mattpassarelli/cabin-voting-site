@@ -21,6 +21,12 @@ const App = () => {
               <Nav.Link as={Link} to='trips'>
                 Trips
               </Nav.Link>
+              {process.env.NODE_ENV === 'development' && (
+                <div>
+                  Running {process.env.NODE_ENV} mode. Will use {process.env.REACT_APP_BACKEND_URL}{' '}
+                  for URL calls
+                </div>
+              )}
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className='justify-content-end'>

@@ -3,8 +3,8 @@ import { Button, Modal } from 'react-bootstrap';
 
 import { Link } from 'react-router-dom';
 import useRequest from '../../hooks/useRequest';
-import axios from 'axios';
 import TripCreateModal from '../../components/Trips/TripFormModal';
+import { TripAPI } from '../../utils/api';
 
 const TripDetail = ({ item, fetchTrips }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -18,12 +18,11 @@ const TripDetail = ({ item, fetchTrips }) => {
 
   const {
     isLoading: isDeleting,
-    error: errorDeleting,
     request: deleteTrip,
   } = useRequest(
     useCallback(async () => {
-      await axios.delete(`https://cabin-db.mattpassarelli.net/trips/${item.id}/`);
-    }, []),
+      await TripAPI.deleteTrip(item.id);
+    }, [item.id]),
     {
       trips: [],
     }

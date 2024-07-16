@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import CabinFormModal from '../../components/Cabins/CabinFormModal';
 import useRequest from '../../hooks/useRequest';
-import axios from 'axios';
+import CabinAPI from '../../utils/api/CabinAPI';
 
 const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
   const [showEdit, setShowEdit] = useState(false);
@@ -15,25 +15,13 @@ const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
   };
 
   const {
-    isLoading,
-    error,
     request: toggleVote,
   } = useRequest(
     useCallback(async () => {
-      await axios.post(
-        `https://cabin-db.mattpassarelli.net/cabins/${cabin.id}/vote/`,
-        {
-          user: localStorage.getItem('userName'),
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      await CabinAPI.toggleVote(cabin.id, localStorage.getItem('userName'));
 
       fetchCabins();
-    }, [])
+    }, [cabin.id, fetchCabins])
   );
 
   return (
