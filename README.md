@@ -3,8 +3,9 @@ Not intended for wide reaching use.
 # TODOs
 
 - [X] Proper API Class (so we don't have many axios calls everywhere)
-- [ ] Secondary voting rounds
+- [X] Secondary voting rounds
   - Take a trip and have it calculate the 2-3 top cabins and stage a second round of voting
+- [ ] Make and actual "FinalRoundCabin" model for the final round voting
 - [X] Proper env variables. Mainly just the URL endpoint that's hit
 - [ ] Make use of the Docker compose networking so the UI can hit the API without having to expose the API directly over the internet
 - [X] Better UI for the cards (bottom padding is missing)
@@ -17,6 +18,8 @@ Not intended for wide reaching use.
 - [ ] Access control to Cabins and trips
   - needs proper user support
 - [ ] Pre-commit hooks for enforcing prettier code formatting
+- [ ] More voting round support
+  - This is one of those things that really should really on access controls. Let the "trip planner" dictate how many rounds and when to start and stop them. Letting just anyone who can access the UI do this is awful
 
 # Running the app
 

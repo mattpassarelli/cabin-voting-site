@@ -16,6 +16,10 @@ class TripAPI extends BaseAPI {
   deleteTrip(tripId) {
     return this.delete(`/trips/${tripId}/`);
   }
+
+  finalizeTrip(tripId) {
+    return this.post(`/trips/${tripId}/finalize/`)
+  }
 }
 
 export default new TripAPI();

@@ -9,3 +9,6 @@ class Trip(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     cabins = models.ManyToManyField(Cabin, blank=True)
+
+    in_final_voting_round = models.BooleanField(default=False)
+    final_round_cabins = models.ManyToManyField(Cabin, blank=True, related_name="final_round_cabins")

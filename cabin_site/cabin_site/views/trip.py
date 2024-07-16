@@ -1,8 +1,11 @@
+from cabin_site.models.cabin import Cabin
 from cabin_site.models.trip import Trip
 from cabin_site.serializers.trip import TripSerializer
 from rest_framework import generics, status
 from rest_framework.response import Response
 from datetime import datetime
+from django.db.models import Count
+import random
 
 
 class TripList(generics.ListCreateAPIView):
@@ -40,7 +43,6 @@ class TripDetail(generics.RetrieveAPIView):
     serializer_class = TripSerializer
     queryset = Trip.objects.all()
 
-    # TODO: trip update to add cabins
     def patch(self, request, pk):
         print(f"Updating Trip {pk}")
         serializer = TripSerializer(data=request.data)
@@ -77,3 +79,64 @@ class TripDetail(generics.RetrieveAPIView):
         Trip.objects.filter(id=pk).first().delete()
 
         return Response(status=status.HTTP_200_OK)
+
+
+class TripFinalRound(generics.RetrieveAPIView):
+    model = Trip
+    serializer_class = TripSerializer
+    queryset = Trip.objects.all()
+
+    def post(self, request, pk):
+        print(f"Finalizing Trip {pk}")
+        serializer = TripSerializer(data=request.data)
+
+        trip = Trip.objects.filter(id=pk).first()
+
+        if trip.in_final_voting_round:
+            trip.in_final_voting_round = False
+
+            for cabin in trip.final_round_cabins.all():
+                cabin.delete()
+
+            trip.final_round_cabins.clear()
+        else:
+            trip.in_final_voting_round = True
+
+        if trip.in_final_voting_round:
+            cabins_with_votes = (
+                trip.cabins.annotate(vote_count=Count("votes"))
+                .filter(vote_count__gt=0)
+                .order_by("-vote_count")
+            )
+
+            top_cabins = []
+            for cabin in cabins_with_votes:
+                if cabin.vote_count > 0:
+                    if len(top_cabins) < 2:
+                        top_cabins.append(cabin)
+                    else:
+                        if (
+                            cabin.vote_count > 0
+                            and cabin.vote_count == top_cabins[-1].vote_count
+                        ):
+                            top_cabins.append(cabin)
+                        else:
+                            break
+
+            cloned_cabins = []
+            for cabin in top_cabins:
+                cloned_cabin = Cabin(
+                    state=cabin.state,
+                    city=cabin.city,
+                    things_to_do=cabin.things_to_do,
+                    listing_url=cabin.listing_url,
+                    image_url=cabin.image_url,
+                )
+                cloned_cabin.save()
+                cloned_cabins.append(cloned_cabin)
+
+            trip.final_round_cabins.set(cloned_cabins)
+
+        trip.save()
+
+        return Response(serializer.to_representation(trip), status=status.HTTP_200_OK)
