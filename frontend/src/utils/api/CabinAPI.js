@@ -1,10 +1,6 @@
 import BaseAPI from './BaseAPI';
 
 class CabinAPI extends BaseAPI {
-  constructor() {
-    super();
-  }
-
   getCabinsByTripId(tripId) {
     return this.get(`/trips/${tripId}/cabins/`);
   }

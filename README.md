@@ -54,3 +54,6 @@ Unsure right now. Spin up a Postgres 14 container and map the network informatio
 
 There is a docker-compose yaml that'll build all 3 containers for the app. Unraid has community support for docker
 compose. So I will attempt to use that.
+
+## Building
+`cd` into the `cabin_site` & `frontend` directories and build the respective Dockerfiles in there: `docker build -t my_docker_repo/my_app:<frontend/backend> .`. Push these two containers to the Dockerhub and deploy on Unraid

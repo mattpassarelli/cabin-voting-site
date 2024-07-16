@@ -1,10 +1,6 @@
 import BaseAPI from './BaseAPI';
 
 class TripAPI extends BaseAPI {
-  constructor() {
-    super();
-  }
-
   getTrips() {
     return this.get('/trips/');
   }
@@ -18,7 +14,7 @@ class TripAPI extends BaseAPI {
   }
 
   deleteTrip(tripId) {
-    return this.delete(`/trips/${tripId}/`)
+    return this.delete(`/trips/${tripId}/`);
   }
 }
 
