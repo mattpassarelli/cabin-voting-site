@@ -16,10 +16,7 @@ const TripDetail = ({ item, fetchTrips }) => {
     justifyContent: 'space-between',
   };
 
-  const {
-    isLoading: isDeleting,
-    request: deleteTrip,
-  } = useRequest(
+  const { isLoading: isDeleting, request: deleteTrip } = useRequest(
     useCallback(async () => {
       await TripAPI.deleteTrip(item.id);
     }, [item.id]),
@@ -42,7 +39,7 @@ const TripDetail = ({ item, fetchTrips }) => {
         <td>{new Date(item.end_date).toLocaleDateString()}</td>
         <div>
           <div style={flexStyle}>
-            <Button as={Link} to={item.in_final_voting_round ? `/trips/${item.id}/cabins` : `/trips/${item.id}/final-cabin-vote`} variant='info' className='mr-2'>
+            <Button as={Link} to={`/trips/${item.id}/cabins`} variant='info' className='mr-2'>
               View Trip Details
             </Button>
             <Button variant='secondary' className='mr-2' onClick={() => setShowEdit(true)}>
