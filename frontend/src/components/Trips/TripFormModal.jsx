@@ -19,35 +19,32 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
   };
 
   const { error: saveError, request: submitTrip } = useRequest(
-    useCallback(
-      async (event) => {
-        event.preventDefault();
+    useCallback(async (event) => {
+      event.preventDefault();
 
-        const form = event.currentTarget;
-        if (form.checkValidity() === false || tripYear < new Date().getFullYear()) {
-          event.stopPropagation();
-          setValidated(true);
-          return;
-        }
+      const form = event.currentTarget;
+      if (form.checkValidity() === false || tripYear < new Date().getFullYear()) {
+        event.stopPropagation();
+        setValidated(true);
+        return;
+      }
 
-        const data = {
-          year: tripYear,
-          start_date: startDate,
-          end_date: endDate,
-        };
+      const data = {
+        year: tripYear,
+        start_date: startDate,
+        end_date: endDate,
+      };
 
-        if (isEdit) {
-          await TripAPI.updateTrip(tripId, data);
-        } else {
-          await TripAPI.createTrip(data);
-        }
+      if (isEdit) {
+        await Tripcabin_site.updateTrip(tripId, data);
+      } else {
+        await Tripcabin_site.createTrip(data);
+      }
 
-        resetForm();
-        reloadTrips();
-        closeModal();
-      },
-      []
-    ),
+      resetForm();
+      reloadTrips();
+      closeModal();
+    }, []),
     []
   );
 

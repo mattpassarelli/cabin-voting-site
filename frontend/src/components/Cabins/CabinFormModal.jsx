@@ -48,9 +48,9 @@ const CabinFormModal = ({
 
     try {
       if (isEdit) {
-        response = await CabinAPI.updateCabin(selectedCabin.id, data);
+        response = await Cabincabin_site.updateCabin(selectedCabin.id, data);
       } else {
-        response = await CabinAPI.createCabin(data);
+        response = await Cabincabin_site.createCabin(data);
       }
 
       if (response.status === 201) {
@@ -71,7 +71,7 @@ const CabinFormModal = ({
 
   const { isLoading: isDeleting, request: deleteCabin } = useRequest(
     useCallback(async () => {
-      await CabinAPI.deleteCabin(selectedCabin.id);
+      await Cabincabin_site.deleteCabin(selectedCabin.id);
 
       fetchItems();
       handleClose();

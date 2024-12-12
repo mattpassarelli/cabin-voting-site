@@ -19,7 +19,7 @@ const Cabins = () => {
     request: fetchCabins,
   } = useRequest(
     useCallback(async () => {
-      const response = await CabinAPI.getCabinsByTripId(tripId);
+      const response = await Cabincabin_site.getCabinsByTripId(tripId);
       const trip = response.data;
 
       let cabinsToReturn;
@@ -39,7 +39,7 @@ const Cabins = () => {
 
   const { isLoading: isFinalizingTrip, request: beginFinalRound } = useRequest(
     useCallback(async () => {
-      await TripAPI.finalizeTrip(tripId);
+      await Tripcabin_site.finalizeTrip(tripId);
       await fetchCabins();
     }, [tripId])
   );

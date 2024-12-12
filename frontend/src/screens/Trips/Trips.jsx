@@ -15,7 +15,7 @@ const Trips = () => {
     request: fetchTrips,
   } = useRequest(
     useCallback(async () => {
-      const response = await TripAPI.getTrips();
+      const response = await Tripcabin_site.getTrips();
 
       return {
         trips: response.data,

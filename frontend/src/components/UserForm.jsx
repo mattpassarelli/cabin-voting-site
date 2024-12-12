@@ -31,7 +31,7 @@ const UserForm = () => {
       return;
     }
 
-    const response = await UserAPI.createUser({ name: username });
+    const response = await Usercabin_site.createUser({ name: username });
 
     if (response.status === 200 || response.status === 201) {
       localStorage.setItem('userName', username);

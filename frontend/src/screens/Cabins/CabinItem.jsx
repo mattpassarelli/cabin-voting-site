@@ -14,11 +14,9 @@ const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
     alignItems: 'center',
   };
 
-  const {
-    request: toggleVote,
-  } = useRequest(
+  const { request: toggleVote } = useRequest(
     useCallback(async () => {
-      await CabinAPI.toggleVote(cabin.id, localStorage.getItem('userName'));
+      await Cabincabin_site.toggleVote(cabin.id, localStorage.getItem('userName'));
 
       fetchCabins();
     }, [cabin.id, fetchCabins])
@@ -31,7 +29,7 @@ const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
           variant='top'
           style={{
             maxHeight: '200px',
-            objectFit: 'cover'
+            objectFit: 'cover',
           }}
           src={cabin.image_url}
         />
@@ -42,8 +40,8 @@ const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
               <div>
                 <span style={{ fontSize: '.9em' }}>{`$${cabin.price}/night`}</span>
                 &nbsp;
-                <Button variant={votedFor ? "success" : 'outline-secondary'} onClick={toggleVote}>
-                  {`${votedFor ? "Voted" :"Vote"}: ${cabin.votes.length}`}
+                <Button variant={votedFor ? 'success' : 'outline-secondary'} onClick={toggleVote}>
+                  {`${votedFor ? 'Voted' : 'Vote'}: ${cabin.votes.length}`}
                 </Button>
               </div>
             </div>
