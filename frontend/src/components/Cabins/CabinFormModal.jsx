@@ -34,7 +34,7 @@ const CabinFormModal = ({
     }
 
     const data = {
-      tripId,
+      trip: tripId,
       city,
       state,
       things_to_do: thingsToDo,

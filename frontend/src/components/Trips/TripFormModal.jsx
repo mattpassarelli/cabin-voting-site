@@ -9,13 +9,15 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
   const [startDate, setStartDate] = useState(isEdit ? item.start_date : new Date());
   const [endDate, setEndDate] = useState(isEdit ? item.end_date : new Date());
   const [tripId, setTripId] = useState(isEdit ? item.id : 0);
+  const [tripName, setTripName] = useState(isEdit ? item.name : '');
 
   const resetForm = () => {
-    setTripYear(false);
+    setTripYear(0);
     setStartDate(false);
     setEndDate(false);
     setTripId(0);
     setValidated(false);
+    setTripName('');
   };
 
   const { error: saveError, request: submitTrip } = useRequest(
@@ -23,7 +25,7 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
       event.preventDefault();
 
       const form = event.currentTarget;
-      if (form.checkValidity() === false || tripYear < new Date().getFullYear()) {
+      if (form.checkValidity() === false) {
         event.stopPropagation();
         setValidated(true);
         return;
@@ -33,6 +35,7 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
         year: tripYear,
         start_date: startDate,
         end_date: endDate,
+        name: tripName,
       };
 
       if (isEdit) {
@@ -63,7 +66,7 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
         </Modal.Header>
 
         <Modal.Body>
-          <Form.Group controlId='userCreation.name'>
+          <Form.Group controlId='userCreation.year'>
             <Form.Label>Trip Year</Form.Label>
             <Form.Control
               type='number'
@@ -79,6 +82,16 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
                 ? 'Year cannot be a previous year'
                 : 'Please enter a year.'}
             </Form.Control.Feedback>
+
+            <Form.Label>Name the trip</Form.Label>
+
+            <Form.Control
+              type='text'
+              placeholder='Fun fun fun'
+              autoFocus
+              value={tripName}
+              onChange={(e) => setTripName(e.target.value)}
+            />
 
             <Form.Label>When does it start?</Form.Label>
             <Form.Control

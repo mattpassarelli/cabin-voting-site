@@ -18,7 +18,7 @@ const Trips = () => {
       const response = await TripAPI.getTrips();
 
       return {
-        trips: response.data,
+        trips: response.data.results,
       };
     }, []),
     {
@@ -42,6 +42,7 @@ const Trips = () => {
         <Table hover responsive striped>
           <thead>
             <th>Trip Year</th>
+            <th>Name</th>
             <th>Start Date</th>
             <th>End Date</th>
             <th>Actions</th>

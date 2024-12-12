@@ -35,6 +35,7 @@ const TripDetail = ({ item, fetchTrips }) => {
     <>
       <tr>
         <td>{item.year}</td>
+        <td>{item?.name}</td>
         <td>{new Date(item.start_date).toLocaleDateString()}</td>
         <td>{new Date(item.end_date).toLocaleDateString()}</td>
         <div>

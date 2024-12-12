@@ -1,14 +1,30 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Navbar, Nav, Container, Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import UserForm from './components/UserForm';
 import { Outlet, Link } from 'react-router-dom';
 
 const App = () => {
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [showSignIn, setShowSignIn] = useState(false);
+
+  /**
+   * this is NOT an okay logout mechanism
+   * but i don't have a proper logout endpoint
+   * yet and I'm writing this whole thing in
+   * 3 hours
+   */
+  const signOut = () => {
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('refreshToken');
+    localStorage.removeItem('firstName');
+
+    window.location('#');
+  };
+
   return (
     <>
       {/* TODO: navbar styling (like padding and shadows) */}
-      <UserForm />
       <Navbar bg='dark' variant='dark' expand='lg'>
         <Container>
           <Navbar.Brand href='/'>Cabin Planner</Navbar.Brand>
@@ -30,10 +46,42 @@ const App = () => {
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className='justify-content-end'>
-            <Navbar.Text>{`Hello, ${localStorage.getItem('userName')}`}</Navbar.Text>
+            {sessionStorage.getItem('accessToken') && sessionStorage.getItem('refreshToken') ? (
+              <Navbar.Text>
+                <Dropdown as={ButtonGroup} data-bs-theme='dark'>
+                  <Button variant='secondary'>{`Hello, ${localStorage.getItem(
+                    'firstName'
+                  )}`}</Button>
+
+                  <Dropdown.Toggle split variant='secondary' id='dropdown-split-basic' />
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={signOut}>Sign Out</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Navbar.Text>
+            ) : (
+              <>
+                <Dropdown as={ButtonGroup} data-bs-theme='dark'>
+                  <Button variant='secondary' onClick={() => setShowSignIn(true)}>
+                    Sign In
+                  </Button>
+
+                  <Dropdown.Toggle split variant='secondary' id='dropdown-split-basic' />
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => setShowSignUp(true)}>Sign Up</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </>
+            )}
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
+      <UserForm show={showSignUp} setShow={setShowSignUp} register />
+      <UserForm show={showSignIn} setShow={setShowSignIn} />
+
       <Outlet />
     </>
   );

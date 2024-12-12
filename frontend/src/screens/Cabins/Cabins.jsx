@@ -54,10 +54,10 @@ const Cabins = () => {
       <Button variant='primary' onClick={() => setShowForm(true)}>
         Create New Cabin
       </Button>
-      &nbsp;
+      {/* &nbsp;
       <Button variant='outline-secondary' onClick={() => beginFinalRound()}>
         {tripObj.in_final_voting_round ? 'Undo Final Voting Round' : 'Begin Final Voting Round'}
-      </Button>
+      </Button> */}
       <br />
       <br />
       {tripObj.in_final_voting_round && (

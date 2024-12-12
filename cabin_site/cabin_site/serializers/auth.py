@@ -5,7 +5,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from cabin_site.models.user import User
-
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class LoginSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -13,7 +13,6 @@ class LoginSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
 
         # Add custom claims
-        token["username"] = user.username
         token["email"] = user.email
         token["user_id"] = str(user.user_id)
         # ...
@@ -29,19 +28,18 @@ class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True, validators=[UniqueValidator(queryset=User.objects.all())]
     )
-    username = serializers.CharField(
-        required=True, validators=[UniqueValidator(queryset=User.objects.all())]
-    )
+
+    tokens = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = (
-            "username",
             "email",
             "password",
             "password2",
             "first_name",
             "last_name",
+            "tokens"
         )
 
     def validate(self, attrs):
@@ -50,9 +48,18 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         return attrs
 
+    def get_tokens(self, user):
+        tokens = RefreshToken.for_user(user)
+        refresh = str(tokens)
+        access = str(tokens.access_token)
+        data = {
+            "refresh": refresh,
+            "access": access
+        }
+        return data
+
     def create(self, validated_data):
         user = User.objects.create(
-            username=validated_data["username"],
             email=validated_data["email"],
             first_name=validated_data["first_name"],
             last_name=validated_data["last_name"],

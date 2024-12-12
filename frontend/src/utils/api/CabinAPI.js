@@ -2,7 +2,7 @@ import BaseAPI from './BaseAPI';
 
 class CabinAPI extends BaseAPI {
   getCabinsByTripId(tripId) {
-    return this.get(`/trips/${tripId}/cabins/`);
+    return this.get(`/trips/${tripId}/`);
   }
 
   updateCabin(cabinId, data) {
