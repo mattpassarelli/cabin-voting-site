@@ -18,7 +18,7 @@ const TripDetail = ({ item, fetchTrips }) => {
 
   const { isLoading: isDeleting, request: deleteTrip } = useRequest(
     useCallback(async () => {
-      await Tripcabin_site.deleteTrip(item.id);
+      await TripAPI.deleteTrip(item.id);
     }, [item.id]),
     {
       trips: [],

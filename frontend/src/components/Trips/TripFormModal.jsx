@@ -36,9 +36,9 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
       };
 
       if (isEdit) {
-        await Tripcabin_site.updateTrip(tripId, data);
+        await TripAPI.updateTrip(tripId, data);
       } else {
-        await Tripcabin_site.createTrip(data);
+        await TripAPI.createTrip(data);
       }
 
       resetForm();

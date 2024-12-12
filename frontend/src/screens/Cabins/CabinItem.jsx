@@ -16,7 +16,7 @@ const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
 
   const { request: toggleVote } = useRequest(
     useCallback(async () => {
-      await Cabincabin_site.toggleVote(cabin.id, localStorage.getItem('userName'));
+      await CabinAPI.toggleVote(cabin.id, localStorage.getItem('userName'));
 
       fetchCabins();
     }, [cabin.id, fetchCabins])
