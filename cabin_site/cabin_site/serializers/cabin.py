@@ -1,12 +1,14 @@
+from cabin_site.serializers.user import UserSerializer
 from rest_framework import serializers
 from cabin_site.models import Cabin
 
 
 class CabinSerializer(serializers.ModelSerializer):
+    votes = UserSerializer(many=True, read_only=True)
 
     class Meta:
         model = Cabin
-        fields = "__all__"
+        fields = ["id","state", 'city', 'things_to_do', 'listing_url', 'image_url', 'price', 'votes', 'submitter', 'trip']
 
     def to_internal_value(self, data):
         cleaned_data = {}

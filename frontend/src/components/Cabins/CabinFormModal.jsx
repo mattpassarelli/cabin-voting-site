@@ -124,6 +124,7 @@ const CabinFormModal = ({
                 as='textarea'
                 rows={3}
                 value={thingsToDo}
+                placeholder="What's around the area? What's on the property?"
                 onChange={(e) => setThingsToDo(e.target.value)}
               />
             </Form.Group>
@@ -140,7 +141,6 @@ const CabinFormModal = ({
                   placeholder='1000'
                   value={cabinPrice}
                   onChange={(e) => setCabinPrice(e.target.value)}
-                  defaultValue={0}
                   required
                 />
 

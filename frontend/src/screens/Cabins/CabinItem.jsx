@@ -1,10 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { Button, Card } from 'react-bootstrap';
+import { Button, Card, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import CabinFormModal from '../../components/Cabins/CabinFormModal';
 import useRequest from '../../hooks/useRequest';
 import CabinAPI from '../../utils/api/CabinAPI';
 
-const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
+const CabinItem = ({ cabin, fetchCabins, tripId }) => {
   const [showEdit, setShowEdit] = useState(false);
 
   const buttonGroupStyle = {
@@ -16,7 +16,7 @@ const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
 
   const { request: toggleVote } = useRequest(
     useCallback(async () => {
-      await CabinAPI.toggleVote(cabin.id, localStorage.getItem('userName'));
+      await CabinAPI.toggleVote(cabin.id);
 
       fetchCabins();
     }, [cabin.id, fetchCabins])
@@ -40,9 +40,23 @@ const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
               <div>
                 <span style={{ fontSize: '.9em' }}>{`$${cabin.price}/night`}</span>
                 &nbsp;
-                <Button variant={votedFor ? 'success' : 'outline-secondary'} onClick={toggleVote}>
-                  {`${votedFor ? 'Voted' : 'Vote'}: ${cabin.votes.length}`}
-                </Button>
+                <OverlayTrigger
+                  overlay={
+                    <Tooltip id='tooltip'>
+                      Votes:
+                      <br />
+                      {cabin.votes.map((user) => {
+                        return <span>{user.first_name}</span>;
+                      })}
+                    </Tooltip>
+                  }
+                >
+                  <span className='d-inline-block'>
+                    <Button variant={'outline-secondary'} onClick={toggleVote}>
+                      {`Vote: ${cabin.votes.length}`}
+                    </Button>
+                  </span>
+                </OverlayTrigger>
               </div>
             </div>
           </Card.Title>
@@ -51,6 +65,7 @@ const CabinItem = ({ cabin, fetchCabins, tripId, votedFor }) => {
             <a href={cabin.listing_url} target='_blank' rel='noreferrer'>
               Listing
             </a>
+            {/* <span>Submitted by: {cabin.submitter}</span> */}
             <Button variant='secondary' onClick={() => setShowEdit(true)}>
               Edit
             </Button>

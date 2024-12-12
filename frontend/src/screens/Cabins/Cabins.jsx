@@ -71,15 +71,9 @@ const Cabins = () => {
         {!isLoading &&
           !isFinalizingTrip &&
           cabins.map((cabin) => {
-            const votedFor = cabin.votes.some((vote) => vote.name === userName);
             return (
               <Col className='d-flex'>
-                <CabinItem
-                  cabin={cabin}
-                  fetchCabins={fetchCabins}
-                  tripId={tripId}
-                  votedFor={votedFor}
-                />
+                <CabinItem cabin={cabin} fetchCabins={fetchCabins} tripId={tripId} />
               </Col>
             );
           })}

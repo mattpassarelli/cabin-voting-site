@@ -17,10 +17,8 @@ class CabinAPI extends BaseAPI {
     return this.delete(`/cabins/${cabinId}/`);
   }
 
-  toggleVote(cabinId, userName) {
-    return this.post(`/cabins/${cabinId}/vote/`, {
-      user: userName,
-    });
+  toggleVote(cabinId) {
+    return this.post(`/cabins/${cabinId}/vote/`);
   }
 }
 
