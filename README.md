@@ -7,15 +7,14 @@ Not intended for wide reaching use.
   - Take a trip and have it calculate the 2-3 top cabins and stage a second round of voting
 - [ ] Make and actual "FinalRoundCabin" model for the final round voting
 - [X] Proper env variables. Mainly just the URL endpoint that's hit
-- [ ] Make use of the Docker compose networking so the UI can hit the API without having to expose the API directly over the internet
 - [X] Better UI for the cards (bottom padding is missing)
-- [ ] Proper user support over some SSO would be great. Hell I'll take a username and password. Just something better than nothing
+- [X] Proper user support over some SSO would be great. Hell I'll take a username and password. Just something better than nothing
 - [ ] Split these apart into separate repos
   - This isn't really needed since this is just a side project for fun so it's low priority. But proper project structures should really be followed
 - [ ] Find a way to map out shortened URLs. VRBO's specific URL shortener doesn't work on mobile and forces users to download the app. They also don't work for image URLs
 - [X] Standard the card sizes
   - Images vary in size and without set card dimensions, they can become ever so slightly bigger or smaller and it offsets the rows
-- [ ] Access control to Cabins and trips
+- [X] Access control to Cabins and trips
   - needs proper user support
 - [ ] Pre-commit hooks for enforcing prettier code formatting
 - [ ] More voting round support
