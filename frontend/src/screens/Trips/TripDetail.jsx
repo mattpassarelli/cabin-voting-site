@@ -34,7 +34,6 @@ const TripDetail = ({ item, fetchTrips }) => {
   return (
     <>
       <tr>
-        <td>{item.year}</td>
         <td>{item?.name}</td>
         <td>{new Date(item.start_date).toLocaleDateString()}</td>
         <td>{new Date(item.end_date).toLocaleDateString()}</td>
@@ -42,9 +41,6 @@ const TripDetail = ({ item, fetchTrips }) => {
           <div style={flexStyle}>
             <Button as={Link} to={`/trips/${item.id}/cabins`} variant='info' className='mr-2'>
               View Trip Details
-            </Button>
-            <Button variant='secondary' className='mr-2' onClick={() => setShowEdit(true)}>
-              Edit
             </Button>
             <Button variant='danger' onClick={() => setConfirmDelete(true)}>
               Delete

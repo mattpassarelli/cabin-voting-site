@@ -3,19 +3,15 @@ import { Alert, Button, Form, Modal } from 'react-bootstrap';
 import useRequest from '../../hooks/useRequest';
 import { TripAPI } from '../../utils/api';
 
-const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }) => {
+const TripFormModal = ({ isOpen, closeModal, item, reloadTrips }) => {
   const [validated, setValidated] = useState(false);
-  const [tripYear, setTripYear] = useState(isEdit ? item.year : 0);
-  const [startDate, setStartDate] = useState(isEdit ? item.start_date : new Date());
-  const [endDate, setEndDate] = useState(isEdit ? item.end_date : new Date());
-  const [tripId, setTripId] = useState(isEdit ? item.id : 0);
-  const [tripName, setTripName] = useState(isEdit ? item.name : '');
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [tripName, setTripName] = useState('');
 
   const resetForm = () => {
-    setTripYear(0);
     setStartDate(false);
     setEndDate(false);
-    setTripId(0);
     setValidated(false);
     setTripName('');
   };
@@ -32,17 +28,12 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
       }
 
       const data = {
-        year: tripYear,
-        start_date: startDate.toISOString().split('T')[0],
-        end_date: endDate.toISOString().split('T')[0],
-        name: tripName,
+        start_date: new Date(startDate).toISOString().split('T')[0],
+        end_date: new Date(endDate).toISOString().split('T')[0],
+        name: event.target[0].value, // this is annoying workaround right now
       };
 
-      if (isEdit) {
-        await TripAPI.updateTrip(tripId, data);
-      } else {
-        await TripAPI.createTrip(data);
-      }
+      await TripAPI.createTrip(data);
 
       resetForm();
       reloadTrips();
@@ -66,33 +57,17 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
         </Modal.Header>
 
         <Modal.Body>
-          <Form.Group controlId='userCreation.year'>
-            <Form.Label>Trip Year</Form.Label>
-            <Form.Control
-              type='number'
-              placeholder='2024'
-              autoFocus
-              required
-              value={tripYear}
-              onChange={(e) => setTripYear(e.target.value)}
-              min={new Date().getFullYear()}
-            />
-            <Form.Control.Feedback type='invalid'>
-              {tripYear < new Date().getFullYear()
-                ? 'Year cannot be a previous year'
-                : 'Please enter a year.'}
-            </Form.Control.Feedback>
-
+          <Form.Group controlId='trip.name'>
             <Form.Label>Name the trip</Form.Label>
-
             <Form.Control
-              type='text'
               placeholder='Fun fun fun'
               autoFocus
+              required
               value={tripName}
               onChange={(e) => setTripName(e.target.value)}
             />
-
+          </Form.Group>
+          <Form.Group controlId='trip.start'>
             <Form.Label>When does it start?</Form.Label>
             <Form.Control
               type='date'
@@ -101,8 +76,9 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
               value={startDate}
               onChange={(e) => setStartDate(e.target.value)}
             />
-            <Form.Control.Feedback type='invalid'>Please enter a year.</Form.Control.Feedback>
-
+            <Form.Control.Feedback type='invalid'>Please enter a date.</Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group controlId='trip.end'>
             <Form.Label>When does it end?</Form.Label>
             <Form.Control
               type='date'
@@ -111,7 +87,7 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
               value={endDate}
               onChange={(e) => setEndDate(e.target.value)}
             />
-            <Form.Control.Feedback type='invalid'>Please enter a year.</Form.Control.Feedback>
+            <Form.Control.Feedback type='invalid'>Please enter a date.</Form.Control.Feedback>
           </Form.Group>
         </Modal.Body>
 
@@ -133,7 +109,6 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
       {saveError && (
         <Alert variant='danger' dismissible>
           <Alert.Heading>Error saving Trip</Alert.Heading>
-          {saveError.status === 409 && <p>A trip with that year alredy exists</p>}
           <p>{saveError.message}</p>
         </Alert>
       )}

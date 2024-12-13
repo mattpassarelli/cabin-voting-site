@@ -13,12 +13,12 @@ class TripDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripSerializer
 
-    def get(self, request, trip_id):
+    def get(self, request, pk):
         try:
-            trip = Trip.objects.get(id=trip_id)
+            trip = Trip.objects.get(id=pk)
             if trip is None:
                 return Response(status=status.HTTP_404_NOT_FOUND)
-            
+
             serializer = TripSerializer(trip)
             return Response(status=status.HTTP_200_OK, data=serializer.data)
 

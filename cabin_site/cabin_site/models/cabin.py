@@ -1,6 +1,7 @@
 from django.db import models
 from cabin_site.models import User, Trip
 
+
 class Cabin(models.Model):
     state = models.CharField(max_length=2)
     city = models.CharField()
@@ -13,4 +14,4 @@ class Cabin(models.Model):
     submitter = models.ForeignKey(
         User, blank=True, null=True, on_delete=models.DO_NOTHING
     )
-    trip = models.ForeignKey(Trip, related_name="cabins", on_delete=models.DO_NOTHING)
+    trip = models.ForeignKey(Trip, related_name="cabins", on_delete=models.CASCADE)

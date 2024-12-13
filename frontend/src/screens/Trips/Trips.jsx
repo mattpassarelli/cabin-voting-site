@@ -41,7 +41,6 @@ const Trips = () => {
       ) : (
         <Table hover responsive striped>
           <thead>
-            <th>Trip Year</th>
             <th>Name</th>
             <th>Start Date</th>
             <th>End Date</th>

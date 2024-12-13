@@ -7,7 +7,7 @@ class TripSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Trip
-        fields = ["id", "year", "start_date", "end_date", "name", "last_modified", "cabins"]
+        fields = ["id",  "start_date", "end_date", "name", "last_modified", "cabins"]
 
     def to_internal_value(self, data):
         cleaned_data = {}
