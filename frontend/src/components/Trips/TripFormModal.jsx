@@ -33,8 +33,8 @@ const TripFormModal = ({ isOpen, closeModal, isEdit = false, item, reloadTrips }
 
       const data = {
         year: tripYear,
-        start_date: startDate,
-        end_date: endDate,
+        start_date: startDate.toISOString().split('T')[0],
+        end_date: endDate.toISOString().split('T')[0],
         name: tripName,
       };
 

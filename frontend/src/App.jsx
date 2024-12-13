@@ -19,7 +19,8 @@ const App = () => {
     sessionStorage.removeItem('refreshToken');
     localStorage.removeItem('firstName');
 
-    window.location('#');
+    window.history.go(window.location.host);
+    window.reload();
   };
 
   return (
