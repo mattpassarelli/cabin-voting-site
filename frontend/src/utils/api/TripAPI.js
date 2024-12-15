@@ -1,8 +1,8 @@
-import BaseAPI from './BaseAPI';
+import BaseAPI from "./BaseAPI";
 
 class TripAPI extends BaseAPI {
   getTrips() {
-    return this.get('/trips/');
+    return this.get("/trips/");
   }
 
   updateTrip(tripId, data) {
@@ -18,7 +18,7 @@ class TripAPI extends BaseAPI {
   }
 
   finalizeTrip(tripId) {
-    return this.post(`/trips/${tripId}/finalize/`)
+    return this.post(`/trips/${tripId}/finalize/`);
   }
 }
 

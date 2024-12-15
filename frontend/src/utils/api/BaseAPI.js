@@ -1,12 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 
 class BaseAPI {
-  constructor(baseURL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000') {
+  constructor(baseURL = process.env.REACT_APP_BACKEND_URL || "http://localhost:8000") {
     this.axiosInstance = axios.create({
       baseURL: baseURL,
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${sessionStorage.getItem('accessToken')}`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
     });
   }

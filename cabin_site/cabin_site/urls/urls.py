@@ -6,5 +6,5 @@ urlpatterns = [
     path("users/", include(users)),
     path("auth/", include(auth)),
     path("trips/", include(trips)),
-    path("cabins/", include(cabins))
+    path("cabins/", include(cabins)),
 ]

@@ -2,12 +2,13 @@ from cabin_site.serializers.cabin import CabinSerializer
 from rest_framework import serializers
 from cabin_site.models import Trip
 
+
 class TripSerializer(serializers.ModelSerializer):
     cabins = CabinSerializer(many=True, read_only=True)
-    
+
     class Meta:
         model = Trip
-        fields = ["id",  "start_date", "end_date", "name", "last_modified", "cabins"]
+        fields = ["id", "start_date", "end_date", "name", "last_modified", "cabins"]
 
     def to_internal_value(self, data):
         cleaned_data = {}
@@ -17,4 +18,3 @@ class TripSerializer(serializers.ModelSerializer):
             else:
                 cleaned_data[key] = value
         return super().to_internal_value(cleaned_data)
-

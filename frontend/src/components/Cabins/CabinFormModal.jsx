@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from 'react';
-import { Form, Modal, Button, Alert, InputGroup } from 'react-bootstrap';
-import { STATE_OPTIONS } from '../../constants';
-import useRequest from '../../hooks/useRequest';
-import CabinAPI from '../../utils/api/CabinAPI';
+import React, { useCallback, useState } from "react";
+import { Form, Modal, Button, Alert, InputGroup } from "react-bootstrap";
+import { STATE_OPTIONS } from "../../constants";
+import useRequest from "../../hooks/useRequest";
+import CabinAPI from "../../utils/api/CabinAPI";
 
 const CabinFormModal = ({
   isOpen,
@@ -12,13 +12,13 @@ const CabinFormModal = ({
   tripId,
   fetchItems,
 }) => {
-  const [city, setCity] = useState(isEdit ? selectedCabin.city : '');
+  const [city, setCity] = useState(isEdit ? selectedCabin.city : "");
   // alamaba is the first option and should be the default
-  const [state, setState] = useState(isEdit ? selectedCabin.state : 'AL');
-  const [thingsToDo, setThingsToDo] = useState(isEdit ? selectedCabin.things_to_do : '');
-  const [listingUrl, setListingUrl] = useState(isEdit ? selectedCabin.listing_url : '');
+  const [state, setState] = useState(isEdit ? selectedCabin.state : "AL");
+  const [thingsToDo, setThingsToDo] = useState(isEdit ? selectedCabin.things_to_do : "");
+  const [listingUrl, setListingUrl] = useState(isEdit ? selectedCabin.listing_url : "");
   const [cabinPrice, setCabinPrice] = useState(isEdit ? selectedCabin.price : 0);
-  const [imageUrl, setImageUrl] = useState(isEdit ? selectedCabin.image_url : '');
+  const [imageUrl, setImageUrl] = useState(isEdit ? selectedCabin.image_url : "");
   const [validated, setValidated] = useState(false);
   const [saveError, setSaveError] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -41,7 +41,7 @@ const CabinFormModal = ({
       price: cabinPrice,
       listing_url: listingUrl,
       image_url: imageUrl,
-      submitter: localStorage.getItem('userName'),
+      submitter: localStorage.getItem("userName"),
     };
 
     let response = null;
@@ -54,11 +54,11 @@ const CabinFormModal = ({
       }
 
       if (response.status === 201 || response.status === 200) {
-        setCity('');
-        setState('AL');
-        setImageUrl('');
-        setThingsToDo('');
-        setListingUrl('');
+        setCity("");
+        setState("AL");
+        setImageUrl("");
+        setThingsToDo("");
+        setListingUrl("");
         setCabinPrice(0);
 
         handleClose();
@@ -86,29 +86,29 @@ const CabinFormModal = ({
       <Modal show={isOpen} onHide={handleClose}>
         <Form onSubmit={addCabin} validated={validated} noValidate>
           <Modal.Header closeButton>
-            <Modal.Title>{isEdit ? 'Edit Cabin' : 'Add Cabin'}</Modal.Title>
+            <Modal.Title>{isEdit ? "Edit Cabin" : "Add Cabin"}</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
-            <Form.Group controlId='formCity'>
+            <Form.Group controlId="formCity">
               <Form.Label>City</Form.Label>
               <Form.Control
-                type='text'
-                placeholder='Enter city'
+                type="text"
+                placeholder="Enter city"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 required
               />
-              <Form.Control.Feedback type='invalid'>Please enter a city</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">Please enter a city</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group controlId='formState'>
+            <Form.Group controlId="formState">
               <Form.Label>State</Form.Label>
               <Form.Select
-                aria-label='Default select example'
+                aria-label="Default select example"
                 value={state}
                 onChange={(e) => setState(e.target.value)}
                 required
-                defaultValue={isEdit ? selectedCabin.state : 'AL'}
+                defaultValue={isEdit ? selectedCabin.state : "AL"}
               >
                 {STATE_OPTIONS.map((state) => (
                   <option key={state.value} value={state.value}>
@@ -116,12 +116,12 @@ const CabinFormModal = ({
                   </option>
                 ))}
               </Form.Select>
-              <Form.Control.Feedback type='invalid'>State is required</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">State is required</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group controlId='formThingsToDo'>
+            <Form.Group controlId="formThingsToDo">
               <Form.Label>Things to Do</Form.Label>
               <Form.Control
-                as='textarea'
+                as="textarea"
                 rows={3}
                 value={thingsToDo}
                 placeholder="What's around the area? What's on the property?"
@@ -129,66 +129,66 @@ const CabinFormModal = ({
               />
             </Form.Group>
 
-            <Form.Group controlId='formCabinCost' className='mb-3'>
+            <Form.Group controlId="formCabinCost" className="mb-3">
               <Form.Label>Price &nbsp;</Form.Label>
-              <Form.Text id='priceHelp' muted>
+              <Form.Text id="priceHelp" muted>
                 Enter the price per day for the cabin
               </Form.Text>
-              <InputGroup className='mb-3'>
+              <InputGroup className="mb-3">
                 <InputGroup.Text>$</InputGroup.Text>
                 <Form.Control
-                  type='number'
-                  placeholder='1000'
+                  type="number"
+                  placeholder="1000"
                   value={cabinPrice}
                   onChange={(e) => setCabinPrice(e.target.value)}
                   required
                 />
 
-                <Form.Control.Feedback type='invalid'>A price is required</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">A price is required</Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
 
-            <Form.Group controlId='formListingUrl'>
+            <Form.Group controlId="formListingUrl">
               <Form.Label>Listing URL</Form.Label>
               <Form.Control
-                type='url'
-                placeholder='Enter listing URL'
+                type="url"
+                placeholder="Enter listing URL"
                 value={listingUrl}
                 onChange={(e) => setListingUrl(e.target.value)}
                 required
               />
-              <Form.Control.Feedback type='invalid'>
+              <Form.Control.Feedback type="invalid">
                 A URL for the rental listing is required
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group controlId='formImageUrl'>
+            <Form.Group controlId="formImageUrl">
               <Form.Label>Image URL</Form.Label>
               <Form.Control
-                type='url'
-                placeholder='Enter image URL'
+                type="url"
+                placeholder="Enter image URL"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
                 required
               />
-              <Form.Control.Feedback type='invalid'>An image URL is required</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">An image URL is required</Form.Control.Feedback>
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
             {isEdit && (
-              <Button variant='danger' onClick={() => setConfirmDelete(true)}>
+              <Button variant="danger" onClick={() => setConfirmDelete(true)}>
                 Delete
               </Button>
             )}
-            <Button variant='secondary' onClick={handleClose}>
+            <Button variant="secondary" onClick={handleClose}>
               Close
             </Button>
-            <Button variant='primary' type='submit'>
+            <Button variant="primary" type="submit">
               Submit
             </Button>
           </Modal.Footer>
         </Form>
         {saveError && (
-          <Alert variant='danger' dismissible>
+          <Alert variant="danger" dismissible>
             <Alert.Heading>Error saving Cabin</Alert.Heading>
             <p>{saveError}</p>
           </Alert>
@@ -200,11 +200,11 @@ const CabinFormModal = ({
           <Modal.Title>Delete trip?</Modal.Title>
         </Modal.Header>
         <Modal.Footer>
-          <Button variant='secondary' onClick={() => setConfirmDelete(false)}>
+          <Button variant="secondary" onClick={() => setConfirmDelete(false)}>
             Cancel
           </Button>
-          <Button variant='danger' onClick={deleteCabin} disabled={isDeleting}>
-            {isDeleting ? 'Deleting...' : 'Delete'}
+          <Button variant="danger" onClick={deleteCabin} disabled={isDeleting}>
+            {isDeleting ? "Deleting..." : "Delete"}
           </Button>
         </Modal.Footer>
       </Modal>

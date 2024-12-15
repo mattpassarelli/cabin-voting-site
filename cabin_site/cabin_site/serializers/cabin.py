@@ -8,7 +8,18 @@ class CabinSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cabin
-        fields = ["id","state", 'city', 'things_to_do', 'listing_url', 'image_url', 'price', 'votes', 'submitter', 'trip']
+        fields = [
+            "id",
+            "state",
+            "city",
+            "things_to_do",
+            "listing_url",
+            "image_url",
+            "price",
+            "votes",
+            "submitter",
+            "trip",
+        ]
 
     def to_internal_value(self, data):
         cleaned_data = {}

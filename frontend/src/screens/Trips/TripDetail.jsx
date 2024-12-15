@@ -1,19 +1,19 @@
-import React, { useCallback, useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import React, { useCallback, useState } from "react";
+import { Button, Modal } from "react-bootstrap";
 
-import { Link } from 'react-router-dom';
-import useRequest from '../../hooks/useRequest';
-import TripCreateModal from '../../components/Trips/TripFormModal';
-import { TripAPI } from '../../utils/api';
+import { Link } from "react-router-dom";
+import useRequest from "../../hooks/useRequest";
+import TripCreateModal from "../../components/Trips/TripFormModal";
+import { TripAPI } from "../../utils/api";
 
 const TripDetail = ({ item, fetchTrips }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
 
   const flexStyle = {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
   };
 
   const { isLoading: isDeleting, request: deleteTrip } = useRequest(
@@ -39,10 +39,10 @@ const TripDetail = ({ item, fetchTrips }) => {
         <td>{new Date(item.end_date).toLocaleDateString()}</td>
         <div>
           <div style={flexStyle}>
-            <Button as={Link} to={`/trips/${item.id}/cabins`} variant='info' className='mr-2'>
+            <Button as={Link} to={`/trips/${item.id}/cabins`} variant="info" className="mr-2">
               View Trip Details
             </Button>
-            <Button variant='danger' onClick={() => setConfirmDelete(true)}>
+            <Button variant="danger" onClick={() => setConfirmDelete(true)}>
               Delete
             </Button>
           </div>
@@ -53,11 +53,11 @@ const TripDetail = ({ item, fetchTrips }) => {
           <Modal.Title>Delete trip?</Modal.Title>
         </Modal.Header>
         <Modal.Footer>
-          <Button variant='secondary' onClick={() => setConfirmDelete(false)}>
+          <Button variant="secondary" onClick={() => setConfirmDelete(false)}>
             Cancel
           </Button>
-          <Button variant='danger' onClick={handleDelete} disabled={isDeleting}>
-            {isDeleting ? 'Deleting...' : 'Delete'}
+          <Button variant="danger" onClick={handleDelete} disabled={isDeleting}>
+            {isDeleting ? "Deleting..." : "Delete"}
           </Button>
         </Modal.Footer>
       </Modal>

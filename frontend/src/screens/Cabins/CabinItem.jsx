@@ -1,17 +1,17 @@
-import React, { useCallback, useState } from 'react';
-import { Button, Card, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import CabinFormModal from '../../components/Cabins/CabinFormModal';
-import useRequest from '../../hooks/useRequest';
-import CabinAPI from '../../utils/api/CabinAPI';
+import React, { useCallback, useState } from "react";
+import { Button, Card, OverlayTrigger, Tooltip } from "react-bootstrap";
+import CabinFormModal from "../../components/Cabins/CabinFormModal";
+import useRequest from "../../hooks/useRequest";
+import CabinAPI from "../../utils/api/CabinAPI";
 
 const CabinItem = ({ cabin, fetchCabins, tripId }) => {
   const [showEdit, setShowEdit] = useState(false);
 
   const buttonGroupStyle = {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   };
 
   const { request: toggleVote } = useRequest(
@@ -24,13 +24,13 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
 
   return (
     <>
-      <Card className='flex-fill mb-4' key={cabin.id}>
-        <a href={cabin.listing_url} target='_blank' rel='noreferrer'>
+      <Card className="flex-fill mb-4" key={cabin.id}>
+        <a href={cabin.listing_url} target="_blank" rel="noreferrer">
           <Card.Img
-            variant='top'
+            variant="top"
             style={{
-              maxHeight: '200px',
-              objectFit: 'cover',
+              maxHeight: "200px",
+              objectFit: "cover",
             }}
             src={cabin.image_url}
           />
@@ -38,15 +38,15 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
         <Card.Body>
           <Card.Title>
             <div style={buttonGroupStyle}>
-              <a href={cabin.listing_url} target='_blank' rel='noreferrer'>
+              <a href={cabin.listing_url} target="_blank" rel="noreferrer">
                 {cabin.city}, {cabin.state}
               </a>
               <div>
-                <span style={{ fontSize: '.9em' }}>{`$${cabin.price}/night`}</span>
+                <span style={{ fontSize: ".9em" }}>{`$${cabin.price}/night`}</span>
                 &nbsp;
                 <OverlayTrigger
                   overlay={
-                    <Tooltip id='tooltip'>
+                    <Tooltip id="tooltip">
                       Votes:
                       <br />
                       {cabin.votes.map((user) => {
@@ -55,8 +55,8 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
                     </Tooltip>
                   }
                 >
-                  <span className='d-inline-block'>
-                    <Button variant={'outline-secondary'} onClick={toggleVote}>
+                  <span className="d-inline-block">
+                    <Button variant={"outline-secondary"} onClick={toggleVote}>
                       {`Vote: ${cabin.votes.length}`}
                     </Button>
                   </span>
@@ -67,7 +67,7 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
           <Card.Text>{cabin.things_to_do}</Card.Text>
           <div style={buttonGroupStyle}>
             {/* <span>Submitted by: {cabin.submitter}</span> */}
-            <Button variant='secondary' onClick={() => setShowEdit(true)}>
+            <Button variant="secondary" onClick={() => setShowEdit(true)}>
               Edit
             </Button>
           </div>

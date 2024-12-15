@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Container, Button, Row, Col } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import CabinFormModal from '../../components/Cabins/CabinFormModal';
+import React, { useCallback, useEffect, useState } from "react";
+import { Container, Button, Row, Col } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import CabinFormModal from "../../components/Cabins/CabinFormModal";
 
-import useRequest from '../../hooks/useRequest';
-import CabinItem from './CabinItem';
-import CabinAPI from '../../utils/api/CabinAPI';
-import { TripAPI } from '../../utils/api';
+import useRequest from "../../hooks/useRequest";
+import CabinItem from "./CabinItem";
+import CabinAPI from "../../utils/api/CabinAPI";
+import { TripAPI } from "../../utils/api";
 
 const Cabins = () => {
   const { tripId } = useParams();
   const [showForm, setShowForm] = useState(false);
-  const userName = localStorage.getItem('userName');
+  const userName = localStorage.getItem("userName");
 
   const {
     result: { cabins, tripObj },
@@ -51,7 +51,7 @@ const Cabins = () => {
   return (
     <Container>
       <h2>Cabins</h2>
-      <Button variant='primary' onClick={() => setShowForm(true)}>
+      <Button variant="primary" onClick={() => setShowForm(true)}>
         Create New Cabin
       </Button>
       {/* &nbsp;
@@ -61,7 +61,7 @@ const Cabins = () => {
       <br />
       <br />
       {tripObj.in_final_voting_round && (
-        <div style={{ fontSize: '18px', fontStyle: 'italic' }}>
+        <div style={{ fontSize: "18px", fontStyle: "italic" }}>
           We're in the final round of voting. Choose carefully!
         </div>
       )}
@@ -72,7 +72,7 @@ const Cabins = () => {
           !isFinalizingTrip &&
           cabins.map((cabin) => {
             return (
-              <Col className='d-flex'>
+              <Col className="d-flex">
                 <CabinItem cabin={cabin} fetchCabins={fetchCabins} tripId={tripId} />
               </Col>
             );

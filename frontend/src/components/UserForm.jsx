@@ -1,17 +1,17 @@
-import { Button, Form, Spinner } from 'react-bootstrap';
-import React, { useEffect, useState } from 'react';
-import Modal from 'react-bootstrap/Modal';
-import { redirect } from 'react-router-dom';
-import UserAPI from '../utils/api/UserAPI';
+import { Button, Form, Spinner } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import Modal from "react-bootstrap/Modal";
+import { redirect } from "react-router-dom";
+import UserAPI from "../utils/api/UserAPI";
 
 const UserForm = ({ show, setShow, register = false }) => {
   const [validated, setValidated] = useState(false);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitButtonText, setSubmitButtonText] = useState('Submit');
+  const [submitButtonText, setSubmitButtonText] = useState("Submit");
 
   const [loginError, setLoginError] = useState(false);
 
@@ -43,20 +43,20 @@ const UserForm = ({ show, setShow, register = false }) => {
 
       if (response.status === 200 || response.status === 201) {
         if (register) {
-          sessionStorage.setItem('accessToken', response.data.tokens.access);
-          sessionStorage.setItem('refreshToken', response.data.tokens.refresh);
+          sessionStorage.setItem("accessToken", response.data.tokens.access);
+          sessionStorage.setItem("refreshToken", response.data.tokens.refresh);
         } else {
-          sessionStorage.setItem('accessToken', response.data.access);
-          sessionStorage.setItem('refreshToken', response.data.refresh);
+          sessionStorage.setItem("accessToken", response.data.access);
+          sessionStorage.setItem("refreshToken", response.data.refresh);
         }
 
-        localStorage.setItem('firstName', response.data.first_name);
+        localStorage.setItem("firstName", response.data.first_name);
 
         setShow(false);
 
-        redirect('/home');
+        redirect("/home");
       } else {
-        console.error('Error:', response);
+        console.error("Error:", response);
       }
     } catch (e) {
       console.log(e);
@@ -74,64 +74,64 @@ const UserForm = ({ show, setShow, register = false }) => {
         </Modal.Header>
 
         <Modal.Body>
-          <Form.Group controlId='userCreation.email'>
+          <Form.Group controlId="userCreation.email">
             <Form.Label>Email</Form.Label>
             <Form.Control
-              type='email'
-              placeholder='IC@Weiner.com'
+              type="email"
+              placeholder="IC@Weiner.com"
               autoFocus
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <Form.Control.Feedback type='invalid'>Please enter an email.</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">Please enter an email.</Form.Control.Feedback>
           </Form.Group>
           {register && (
             <>
-              <Form.Group controlId='userCreation.first_name'>
+              <Form.Group controlId="userCreation.first_name">
                 <Form.Label>First name</Form.Label>
                 <Form.Control
-                  type='text'
-                  placeholder='Phillip'
+                  type="text"
+                  placeholder="Phillip"
                   autoFocus
                   required
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
-                <Form.Control.Feedback type='invalid'>Please enter a name.</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">Please enter a name.</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group controlId='userCreation.last_name'>
+              <Form.Group controlId="userCreation.last_name">
                 <Form.Label>Last Name</Form.Label>
                 <Form.Control
-                  type='text'
-                  placeholder='Fry'
+                  type="text"
+                  placeholder="Fry"
                   autoFocus
                   required
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
-                <Form.Control.Feedback type='invalid'>Please enter a name.</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">Please enter a name.</Form.Control.Feedback>
               </Form.Group>
             </>
           )}
-          <Form.Group controlId='userCreation.password'>
+          <Form.Group controlId="userCreation.password">
             <Form.Label>Password</Form.Label>
             <Form.Control
-              type='password'
-              placeholder='Nibbler'
+              type="password"
+              placeholder="Nibbler"
               autoFocus
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Form.Control.Feedback type='invalid'>Please enter a password.</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">Please enter a password.</Form.Control.Feedback>
           </Form.Group>
 
           {loginError && (
             <span>
               <br />
-              <div className='fieldError' style={{ color: 'red' }}>
-                {typeof loginError === 'object' ? (
+              <div className="fieldError" style={{ color: "red" }}>
+                {typeof loginError === "object" ? (
                   Object.keys(loginError).map((key) => {
                     return (
                       <>
@@ -149,12 +149,12 @@ const UserForm = ({ show, setShow, register = false }) => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant='primary' disabled={isSubmitting} type='submit'>
+          <Button variant="primary" disabled={isSubmitting} type="submit">
             {isSubmitting ? (
-              <Spinner as='span' animation='border' size='sm' role='status' aria-hidden='true' />
+              <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
             ) : (
               <span>{submitButtonText}</span>
             )}

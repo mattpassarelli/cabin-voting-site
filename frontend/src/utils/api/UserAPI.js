@@ -1,4 +1,4 @@
-import BaseAPI from './BaseAPI';
+import BaseAPI from "./BaseAPI";
 
 class UserAPI extends BaseAPI {
   createUser(userData) {

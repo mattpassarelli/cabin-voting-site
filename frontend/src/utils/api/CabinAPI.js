@@ -1,4 +1,4 @@
-import BaseAPI from './BaseAPI';
+import BaseAPI from "./BaseAPI";
 
 class CabinAPI extends BaseAPI {
   getCabinsByTripId(tripId) {
@@ -10,7 +10,7 @@ class CabinAPI extends BaseAPI {
   }
 
   createCabin(data) {
-    return this.post('/cabins/', data);
+    return this.post("/cabins/", data);
   }
 
   deleteCabin(cabinId) {

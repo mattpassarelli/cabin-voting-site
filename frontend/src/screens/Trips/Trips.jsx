@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Button, Container, Spinner, Table } from 'react-bootstrap';
+import React, { useCallback, useEffect, useState } from "react";
+import { Button, Container, Spinner, Table } from "react-bootstrap";
 
-import useRequest from '../../hooks/useRequest';
-import TripDetail from './TripDetail';
-import TripFormModal from '../../components/Trips/TripFormModal';
-import { TripAPI } from '../../utils/api';
+import useRequest from "../../hooks/useRequest";
+import TripDetail from "./TripDetail";
+import TripFormModal from "../../components/Trips/TripFormModal";
+import { TripAPI } from "../../utils/api";
 
 const Trips = () => {
   const [open, setOpen] = useState(false);
@@ -33,7 +33,7 @@ const Trips = () => {
   return (
     <Container>
       <h2>Trips</h2>
-      <Button variant='primary' className='mb-3' onClick={() => setOpen(true)}>
+      <Button variant="primary" className="mb-3" onClick={() => setOpen(true)}>
         Create New Trip
       </Button>
       {isLoading ? (

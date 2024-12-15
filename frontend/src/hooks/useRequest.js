@@ -1,5 +1,5 @@
-import { useState, useCallback } from 'react';
-import useIsMounted from './isMounted';
+import { useState, useCallback } from "react";
+import useIsMounted from "./isMounted";
 
 export default function useRequest(makeRequest, initialValue) {
   const [result, setResult] = useState(initialValue);
@@ -31,7 +31,7 @@ export default function useRequest(makeRequest, initialValue) {
           }
         }
       },
-      [makeRequest],
+      [makeRequest]
     ),
     setValue: setResult,
   };
