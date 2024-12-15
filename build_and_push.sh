@@ -33,9 +33,9 @@ docker build -t $IMAGE_NAME_REACT -t $LATEST_TAG_REACT --build-arg REACT_APP_BAC
 
 # Push both the timestamped and latest images
 echo "Pushing image $IMAGE_NAME_DJANGO and $LATEST_TAG_DJANGO to Docker Hub..."B
-# docker push $IMAGE_NAME_DJANGO
-# docker push $LATEST_TAG_DJANGO
-# docker push $IMAGE_NAME_REACT
-# docker push $LATEST_TAG_REACT
+docker push $IMAGE_NAME_DJANGO
+docker push $LATEST_TAG_DJANGO
+docker push $IMAGE_NAME_REACT
+docker push $LATEST_TAG_REACT
 
 echo "Done!"
