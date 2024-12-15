@@ -53,8 +53,6 @@ const UserForm = ({ show, setShow, register = false }) => {
         localStorage.setItem("firstName", response.data.first_name);
 
         setShow(false);
-
-        redirect("/home");
       } else {
         console.error("Error:", response);
       }

@@ -8,6 +8,9 @@ class TripList(generics.ListCreateAPIView):
     queryset = Trip.objects.all()
     serializer_class = TripSerializer
 
+    def get_queryset(self):
+        return Trip.objects.filter(is_active=True)
+
 
 class TripDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Trip.objects.all()
@@ -21,6 +24,19 @@ class TripDetail(generics.RetrieveUpdateDestroyAPIView):
 
             serializer = TripSerializer(trip)
             return Response(status=status.HTTP_200_OK, data=serializer.data)
+
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data=str(e))
+
+    def delete(self, request, pk):
+        try:
+            trip = Trip.objects.get(id=pk)
+            if trip is None:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+
+            trip.is_active = False
+            trip.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST, data=str(e))

@@ -41,7 +41,6 @@ const CabinFormModal = ({
       price: cabinPrice,
       listing_url: listingUrl,
       image_url: imageUrl,
-      submitter: localStorage.getItem("userName"),
     };
 
     let response = null;
@@ -65,7 +64,7 @@ const CabinFormModal = ({
         fetchItems();
       }
     } catch (error) {
-      setSaveError(error.response.data);
+      setSaveError(error?.response?.data?.detail);
     }
   };
 

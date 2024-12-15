@@ -1,10 +1,10 @@
 from cabin_site.serializers.cabin import CabinSerializer
 from rest_framework import serializers
-from cabin_site.models import Trip
+from cabin_site.models import Trip, Cabin
 
 
 class TripSerializer(serializers.ModelSerializer):
-    cabins = CabinSerializer(many=True, read_only=True)
+    cabins = serializers.SerializerMethodField()
 
     class Meta:
         model = Trip
@@ -18,3 +18,8 @@ class TripSerializer(serializers.ModelSerializer):
             else:
                 cleaned_data[key] = value
         return super().to_internal_value(cleaned_data)
+
+    def get_cabins(self, obj):
+        qs = Cabin.objects.filter(is_active=True, trip=obj)
+        serializer = CabinSerializer(instance=qs, many=True)
+        return serializer.data

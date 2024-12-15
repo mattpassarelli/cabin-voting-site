@@ -66,7 +66,6 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
           </Card.Title>
           <Card.Text>{cabin.things_to_do}</Card.Text>
           <div style={buttonGroupStyle}>
-            {/* <span>Submitted by: {cabin.submitter}</span> */}
             <Button variant="secondary" onClick={() => setShowEdit(true)}>
               Edit
             </Button>

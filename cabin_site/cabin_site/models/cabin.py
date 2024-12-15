@@ -11,7 +11,7 @@ class Cabin(models.Model):
     price = models.IntegerField()
 
     votes = models.ManyToManyField(User, related_name="votes", blank=True)
-    submitter = models.ForeignKey(
-        User, blank=True, null=True, on_delete=models.DO_NOTHING
-    )
+    submitter = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     trip = models.ForeignKey(Trip, related_name="cabins", on_delete=models.CASCADE)
+
+    is_active = models.BooleanField(db_default=True)

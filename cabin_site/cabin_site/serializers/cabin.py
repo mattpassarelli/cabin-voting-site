@@ -17,8 +17,8 @@ class CabinSerializer(serializers.ModelSerializer):
             "image_url",
             "price",
             "votes",
-            "submitter",
             "trip",
+            "is_active",
         ]
 
     def to_internal_value(self, data):
