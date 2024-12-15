@@ -16,10 +16,11 @@ Not intended for wide reaching use.
   - Images vary in size and without set card dimensions, they can become ever so slightly bigger or smaller and it offsets the rows
 - [X] Access control to Cabins and trips
   - needs proper user support
-- [ ] Pre-commit hooks for enforcing prettier code formatting
+- [X] Pre-commit hooks for enforcing prettier code formatting
 - [ ] More voting round support
   - This is one of those things that really should really on access controls. Let the "trip planner" dictate how many rounds and when to start and stop them. Letting just anyone who can access the UI do this is awful
-
+- [ ] Deployments on Unraid are fine for my usage. But the lack of proper `.env` files makes it a tedious process to have niche changes to the docker compose file. It's annoying if nothing else
+- [X] Automated builds and pushes to Dockerhub would be sweet
 # Running the app
 
 Documentation is written from a Windows development standpoint. Most commands translate across all platforms but with mildly different syntax:
@@ -60,3 +61,5 @@ compose. So I will attempt to use that.
 
 ## Building
 `cd` into the `cabin_site` & `frontend` directories and build the respective Dockerfiles in there: `docker build -t my_docker_repo/my_app:<frontend/backend> .`. Push these two containers to the Dockerhub and deploy on Unraid
+
+I now also have an automated script to build and publish the two docker images. Should work on any UNIX system with Zshell available.

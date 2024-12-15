@@ -1,0 +1,27 @@
+# the docker compose file used to deploy the containers on my remote unraid instance
+services:
+  db:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+
+  backend:
+    image: mattpassarelli/cabin_voting_site:backend # Use :latest implicitly
+    ports:
+      - 8001:8000
+    depends_on:
+      - db
+
+  frontend:
+    image: mattpassarelli/cabin_voting_site:frontend # Same can be applied for frontend if needed
+    ports:
+      - "3001:3000"
+    args:
+      REACT_APP_BACKEND_URL: https://cabin-db.mattpassarelli.net
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

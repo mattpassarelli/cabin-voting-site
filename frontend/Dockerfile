@@ -4,6 +4,12 @@ FROM node:14
 # Set the working directory in the container
 WORKDIR /app
 
+# Declare a build argument
+ARG REACT_APP_BACKEND_URL
+
+# Pass the build argument to the environment so React can use it
+ENV REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL}
+
 # Copy the package.json and yarn.lock files
 COPY package.json package-lock.json /app/
 

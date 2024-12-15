@@ -7,7 +7,15 @@ from rest_framework.validators import UniqueValidator
 from cabin_site.models.user import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
 class LoginSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        user = self.user
+        # Include additional data in the response (not encoded in the token)
+        data["first_name"] = user.first_name
+        return data
+
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
@@ -16,6 +24,8 @@ class LoginSerializer(TokenObtainPairSerializer):
         token["email"] = user.email
         token["user_id"] = str(user.user_id)
         # ...
+
+        print(token)
 
         return token
 
@@ -26,21 +36,20 @@ class RegisterSerializer(serializers.ModelSerializer):
     )
     password2 = serializers.CharField(write_only=True, required=True)
     email = serializers.EmailField(
-        required=True, validators=[UniqueValidator(queryset=User.objects.all())]
+        required=True,
+        validators=[
+            UniqueValidator(
+                queryset=User.objects.all(),
+                message="A user with this email already exists",
+            )
+        ],
     )
 
     tokens = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = (
-            "email",
-            "password",
-            "password2",
-            "first_name",
-            "last_name",
-            "tokens"
-        )
+        fields = ("email", "password", "password2", "first_name", "last_name", "tokens")
 
     def validate(self, attrs):
         if attrs["password"] != attrs["password2"]:
@@ -52,10 +61,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         tokens = RefreshToken.for_user(user)
         refresh = str(tokens)
         access = str(tokens.access_token)
-        data = {
-            "refresh": refresh,
-            "access": access
-        }
+        data = {"refresh": refresh, "access": access}
         return data
 
     def create(self, validated_data):

@@ -8,6 +8,8 @@ const App = () => {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
 
+  const isLoggedIn =
+    sessionStorage.getItem('accessToken') && sessionStorage.getItem('refreshToken');
   /**
    * this is NOT an okay logout mechanism
    * but i don't have a proper logout endpoint
@@ -35,9 +37,11 @@ const App = () => {
               <Nav.Link as={Link} to='home'>
                 Home
               </Nav.Link>
-              <Nav.Link as={Link} to='trips'>
-                Trips
-              </Nav.Link>
+              {isLoggedIn && (
+                <Nav.Link as={Link} to='trips'>
+                  Trips
+                </Nav.Link>
+              )}
               {process.env.NODE_ENV === 'development' && (
                 <div>
                   Running {process.env.NODE_ENV} mode. Will use {process.env.REACT_APP_BACKEND_URL}{' '}
@@ -47,7 +51,7 @@ const App = () => {
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse className='justify-content-end'>
-            {sessionStorage.getItem('accessToken') && sessionStorage.getItem('refreshToken') ? (
+            {isLoggedIn ? (
               <Navbar.Text>
                 <Dropdown as={ButtonGroup} data-bs-theme='dark'>
                   <Button variant='secondary'>{`Hello, ${localStorage.getItem(

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 class BaseAPI {
-  constructor(baseURL = process.env.REACT_APP_BACKEND_URL) {
+  constructor(baseURL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8000') {
     this.axiosInstance = axios.create({
       baseURL: baseURL,
       headers: {

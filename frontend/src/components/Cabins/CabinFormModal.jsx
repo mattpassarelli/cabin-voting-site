@@ -27,7 +27,7 @@ const CabinFormModal = ({
     e.preventDefault();
 
     const form = e.currentTarget;
-    if (form.checkValidity() === false || cabinPrice <= 0) {
+    if (form.checkValidity() === false) {
       e.stopPropagation();
       setValidated(true);
       return;
@@ -53,7 +53,7 @@ const CabinFormModal = ({
         response = await CabinAPI.createCabin(data);
       }
 
-      if (response.status === 201) {
+      if (response.status === 201 || response.status === 200) {
         setCity('');
         setState('AL');
         setImageUrl('');

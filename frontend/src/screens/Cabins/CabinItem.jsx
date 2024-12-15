@@ -25,18 +25,22 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
   return (
     <>
       <Card className='flex-fill mb-4' key={cabin.id}>
-        <Card.Img
-          variant='top'
-          style={{
-            maxHeight: '200px',
-            objectFit: 'cover',
-          }}
-          src={cabin.image_url}
-        />
+        <a href={cabin.listing_url} target='_blank' rel='noreferrer'>
+          <Card.Img
+            variant='top'
+            style={{
+              maxHeight: '200px',
+              objectFit: 'cover',
+            }}
+            src={cabin.image_url}
+          />
+        </a>
         <Card.Body>
           <Card.Title>
             <div style={buttonGroupStyle}>
-              {cabin.city}, {cabin.state}
+              <a href={cabin.listing_url} target='_blank' rel='noreferrer'>
+                {cabin.city}, {cabin.state}
+              </a>
               <div>
                 <span style={{ fontSize: '.9em' }}>{`$${cabin.price}/night`}</span>
                 &nbsp;
@@ -62,9 +66,6 @@ const CabinItem = ({ cabin, fetchCabins, tripId }) => {
           </Card.Title>
           <Card.Text>{cabin.things_to_do}</Card.Text>
           <div style={buttonGroupStyle}>
-            <a href={cabin.listing_url} target='_blank' rel='noreferrer'>
-              Listing
-            </a>
             {/* <span>Submitted by: {cabin.submitter}</span> */}
             <Button variant='secondary' onClick={() => setShowEdit(true)}>
               Edit

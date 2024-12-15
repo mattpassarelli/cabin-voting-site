@@ -1,4 +1,4 @@
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Spinner } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { redirect } from 'react-router-dom';
@@ -10,11 +10,16 @@ const UserForm = ({ show, setShow, register = false }) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitButtonText, setSubmitButtonText] = useState('Submit');
+
+  const [loginError, setLoginError] = useState(false);
 
   const handleClose = () => setShow(false);
 
   const createUser = async (event) => {
     event.preventDefault();
+    setLoginError(false);
 
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -23,31 +28,41 @@ const UserForm = ({ show, setShow, register = false }) => {
       return;
     }
 
-    const response = register
-      ? await UserAPI.createUser({
-          email,
-          first_name: firstName,
-          last_name: lastName,
-          password,
-          password2: password,
-        })
-      : await UserAPI.login({ email, password });
+    setIsSubmitting(true);
 
-    if (response.status === 200 || response.status === 201) {
-      if (register) {
-        sessionStorage.setItem('accessToken', response.data.tokens.access);
-        sessionStorage.setItem('refreshToken', response.data.tokens.refresh);
+    try {
+      const response = register
+        ? await UserAPI.createUser({
+            email,
+            first_name: firstName,
+            last_name: lastName,
+            password,
+            password2: password,
+          })
+        : await UserAPI.login({ email, password });
+
+      if (response.status === 200 || response.status === 201) {
+        if (register) {
+          sessionStorage.setItem('accessToken', response.data.tokens.access);
+          sessionStorage.setItem('refreshToken', response.data.tokens.refresh);
+        } else {
+          sessionStorage.setItem('accessToken', response.data.access);
+          sessionStorage.setItem('refreshToken', response.data.refresh);
+        }
+
+        localStorage.setItem('firstName', response.data.first_name);
+
+        setShow(false);
+
+        redirect('/home');
       } else {
-        sessionStorage.setItem('accessToken', response.data.access);
-        sessionStorage.setItem('refreshToken', response.data.refresh);
+        console.error('Error:', response);
       }
-      localStorage.setItem('firstName', firstName);
-
-      setShow(false);
-
-      redirect('/home');
-    } else {
-      console.error('Error:', response);
+    } catch (e) {
+      console.log(e);
+      setLoginError(e.response.data);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -111,14 +126,38 @@ const UserForm = ({ show, setShow, register = false }) => {
             />
             <Form.Control.Feedback type='invalid'>Please enter a password.</Form.Control.Feedback>
           </Form.Group>
+
+          {loginError && (
+            <span>
+              <br />
+              <div className='fieldError' style={{ color: 'red' }}>
+                {typeof loginError === 'object' ? (
+                  Object.keys(loginError).map((key) => {
+                    return (
+                      <>
+                        <span>{`${key}: ${loginError[key][0]}`}</span>
+                        <br />
+                      </>
+                    );
+                  })
+                ) : (
+                  <span>{loginError.detail}</span>
+                )}
+              </div>
+            </span>
+          )}
         </Modal.Body>
 
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>
             Close
           </Button>
-          <Button variant='primary' type='submit'>
-            Submit
+          <Button variant='primary' disabled={isSubmitting} type='submit'>
+            {isSubmitting ? (
+              <Spinner as='span' animation='border' size='sm' role='status' aria-hidden='true' />
+            ) : (
+              <span>{submitButtonText}</span>
+            )}
           </Button>
         </Modal.Footer>
       </Form>
